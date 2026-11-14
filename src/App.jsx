@@ -5,13 +5,13 @@ import { auth, db, googleProvider } from './firebase';
 import { Search, ShoppingBag, Menu, X, ArrowRight, UserRound, LogOut, Plus, Minus, Heart, Instagram, ChevronDown } from 'lucide-react';
 
 const seed = [
-  {id:'look-01',name:'The Everyday Edit',category:'Clothing',price:490,tag:'NEW',description:'An effortless wardrobe staple with a considered silhouette.',image:'https://images.unsplash.com/photo-153910 0000-000000000000'},
+  {id:'look-01',name:'The Everyday Edit',category:'Clothing',price:490,tag:'NEW',description:'An effortless wardrobe staple with a considered silhouette.',image:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=900&q=85'},
   {id:'bag-01',name:'The City Tote',category:'Bags',price:620,tag:'BESTSELLER',description:'Your everyday companion, made for everything ahead.',image:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85'},
   {id:'acc-01',name:'The Signature Set',category:'Accessories',price:180,tag:'NEW',description:'Small details. A distinctive finish.',image:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=900&q=85'},
   {id:'look-02',name:'Soft Structure',category:'Clothing',price:540,tag:'',description:'Clean lines and a relaxed, confident fit.',image:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85'},
   {id:'bag-02',name:'The Mini Shoulder',category:'Bags',price:390,tag:'',description:'A compact silhouette for your essentials.',image:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85'},
   {id:'acc-02',name:'Everyday Gold Tones',category:'Accessories',price:150,tag:'',description:'Finishing touches for your own kind of style.',image:'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=900&q=85'}
-].filter(p=>!p.image.includes('153910 '));
+];
 
 const money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' DH';
 
