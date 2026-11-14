@@ -91,3 +91,8 @@
 /* Nudge the homepage quotation slightly higher without moving the brand title or navigation. */
 .home-quote{transform:translateY(-23px)!important}
 @media(max-width:620px){.home-quote{transform:translateY(-14px)!important}}
+
+
+/* Move the homepage quotation a little more noticeably higher, keeping the adjustment restrained. */
+.home-quote{transform:translateY(-35px)!important}
+@media(max-width:620px){.home-quote{transform:translateY(-22px)!important}}
