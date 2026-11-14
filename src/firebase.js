@@ -15,4 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+// Explicitly request the Google account's email and profile, and show the
+// account chooser so the owner can select the intended Google account.
+googleProvider.addScope('email');
+googleProvider.addScope('profile');
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 export const db = getFirestore(app);
