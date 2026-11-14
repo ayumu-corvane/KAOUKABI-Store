@@ -56,3 +56,58 @@
 .no-colors{margin:0;align-self:center;flex:1;line-height:1.5}
 .cart-item-color{display:block;font-size:10px;color:#827970;margin:0 0 6px}
 @media(max-width:620px){.purchase-options{gap:8px;margin-top:13px}.purchase-field>span,.no-colors{font-size:7px}.purchase-field select,.purchase-field input{height:36px;font-size:10px}.quantity-field{max-width:76px;flex-basis:76px}}
+
+/* KAOUKABI official identity: black, ivory, crown gold, burgundy and green */
+:root{--wine:#781f2d;--green:#4f9256;--orange:#e9a13b;--ink:#090909;--paper:#fffdfb;background:#fffdfb;color:#090909}
+.announcement,.ticker,.story,.button-dark,.product-add-button,.review-submit{background:#080808;color:#fff}
+.announcement span,.ticker b{color:#e9a13b}
+.header{background:#fffdfb;border-bottom:2px solid #111}
+.wordmark{display:flex;flex-direction:column;align-items:center;gap:1px;color:#090909;font-family:'Playfair Display',serif;font-size:20px;letter-spacing:2px}
+.wordmark img{width:52px;height:52px;object-fit:contain}
+.wordmark span{font-weight:700}
+.wordmark small{font:7px 'DM Sans';letter-spacing:1.6px;color:#781f2d}
+.hero{background:#fffdfb;grid-template-columns:48% 52%;min-height:540px}
+.hero-copy{background:#080808;color:#fff}
+.hero h1 em{color:#e9a13b}
+.hero-image{background:#fffdfb;display:grid;place-items:center;padding:36px}
+.hero-image>img{position:relative;inset:auto;width:min(100%,440px);height:auto;max-height:440px;object-fit:contain;border:9px solid #080808;border-radius:50%;background:#fffdfb;box-shadow:0 0 0 7px #4f9256,0 0 0 13px #781f2d,0 0 0 19px #e9a13b}
+.image-stamp{background:#4f9256;color:#fff;border:3px solid #080808}
+.hero-note{color:#e9a13b}
+.hero-side{color:#781f2d}
+.section-heading h2{color:#080808}
+.section-heading h2 em,.feature h2 em{color:#4f9256}
+.section-heading .eyebrow,.feature .eyebrow,.story .eyebrow,.newsletter .eyebrow{color:#b77b21}
+.filter.active{color:#781f2d;border-color:#e9a13b}
+.product-image{background:#fff;border:1px solid #eee8df;display:grid;place-items:center}
+.product-image>img{object-fit:contain;padding:12px;background:#fff}
+.product-tag{background:#4f9256}
+.heart{color:#781f2d}
+.product-price strong{color:#781f2d}
+.product-add-button{border-color:#080808}
+.product-add-button:hover{background:#e9a13b;border-color:#e9a13b;color:#080808}
+.feature{background:#f4f0e8}
+.feature-photo{background:#fff;display:grid;place-items:center;padding:28px}
+.feature-photo img{min-height:0;height:auto;max-height:420px;max-width:100%;object-fit:contain;border:7px solid #080808;border-radius:50%;box-shadow:0 0 0 6px #4f9256,0 0 0 11px #781f2d,0 0 0 16px #e9a13b}
+.story{background:#080808}
+.story h2 em{color:#e9a13b}
+.story>span{color:#80b67e}
+.newsletter{background:#f2eee7}
+.newsletter h2{color:#080808}
+.social-links{display:flex;gap:12px;flex-wrap:wrap}
+.social-links a{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 17px;background:#080808;color:#fff;text-decoration:none;font-size:9px;letter-spacing:1.3px;font-weight:700;border:1px solid #080808}
+.social-links a:hover{background:#e9a13b;color:#080808;border-color:#e9a13b}
+.footer-logo{display:flex;align-items:center;gap:10px;color:#fff}
+.footer-logo img{width:46px;height:46px;object-fit:contain;background:#fff;border-radius:50%}
+.reviews summary{color:#781f2d}
+.review-stars,.star-picker button.selected{color:#e9a13b}
+.review-submit{background:#080808}
+@media(max-width:620px){
+ .hero{grid-template-columns:1fr}
+ .hero-image{min-height:330px;padding:32px}
+ .hero-image>img{width:min(78vw,300px);height:auto}
+ .wordmark img{width:43px;height:43px}
+ .feature-photo{min-height:330px}
+ .feature-photo img{max-height:290px}
+ .social-links{display:grid;grid-template-columns:1fr;max-width:260px}
+ .social-links a{justify-content:center}
+}
