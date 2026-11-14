@@ -78,7 +78,9 @@ function ProductReviews({ product, user }) {
   </details>;
 }
 
-const EUR_MAD_RATE = 10.95; // Approximate reference rate; refresh periodically.\nconst money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' MAD';\nconst euro = n => '€' + (Number(n || 0) / EUR_MAD_RATE).toFixed(2);
+const EUR_MAD_RATE = 10.95; // Approximate reference rate; refresh periodically.
+const money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' MAD';
+const euro = n => '€' + (Number(n || 0) / EUR_MAD_RATE).toFixed(2);
 
 export default function App(){
   const [products,setProducts]=useState(seed);
@@ -112,8 +114,11 @@ export default function App(){
   const selectedQty=p=>Math.max(1,Number(purchaseOptions[p.id]?.qty)||1);
   const whatsapp=()=>{
     const phone='212600000000'; // Replace with the store's WhatsApp number before launch.
-    const lines=cart.map(p=>p.name+(p.color?' · Color: '+p.color:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\n');
-    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent('Hello KAOUKABI! I would like to order:\n'+lines+'\nTotal: '+money(total)),'_blank','noopener,noreferrer');
+    const lines=cart.map(p=>p.name+(p.color?' · Color: '+p.color:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('
+');
+    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent('Hello KAOUKABI! I would like to order:
+'+lines+'
+Total: '+money(total)),'_blank','noopener,noreferrer');
   };
   const login=async()=>{try{await signInWithPopup(auth,googleProvider)}catch(e){setNotice(e.code==='auth/popup-closed-by-user'?'Sign-in cancelled':'Could not sign in. Check Firebase Authentication settings.')}};
   const categories=['All','Clothing','Bags','Accessories'];
