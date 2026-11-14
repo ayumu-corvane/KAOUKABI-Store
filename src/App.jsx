@@ -21,7 +21,7 @@ useEffect(()=>onAuthStateChanged(auth,U),[]);
 useEffect(()=>{let live=true;getDocs(query(collection(db,'products'),where('published','==',true))).then(s=>{if(live&&!s.empty)Ps(s.docs.map(d=>({id:d.id,...d.data()})))}).catch(()=>{});return()=>{live=false}},[]);
 function toast(t){N(t);setTimeout(()=>N(''),2600)}function go(p){P(p);Sel(null);Se('');Ca('All');if(p==='dashboard'&&!owner)toast('Only Owner can access this section')}
 async function login(){try{await signInWithPopup(auth,googleProvider)}catch(e){toast('Sign-in could not be completed. Try again.')}}
-const shown=useMemo(()=>products.filter(p=>category==='All'||p.category===category).map(p=>({...p,_score:score(p,search)})).filter(p=>!search.trim()||p._score>=.45).sort((a,b)=>b._score-a._score),[products,category,search]);
+const shown=useMemo(()=>products.filter(p=>category==='All'||p.category===category).map(p=>({...p,_score:score(p,search)})).filter(p=>!search.trim()||p._score>0).sort((a,b)=>b._score-a._score),[products,category,search]);
 const count=cart.reduce((n,p)=>n+p.qty,0),total=cart.reduce((n,p)=>n+p.price*p.qty,0);
 function add(p,c=color,q=qty){const key=p.id+'::'+c;Cart(old=>{const x=old.find(z=>z.key===key);return x?old.map(z=>z.key===key?{...z,qty:z.qty+q}:z):[...old,{...p,key,color:c,qty:q}]});toast('Added to Your Cart')}
 function change(key,d){Cart(old=>old.map(p=>p.key===key?{...p,qty:p.qty+d}:p).filter(p=>p.qty>0))}
