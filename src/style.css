@@ -119,3 +119,10 @@
 
 /* Slightly reduce Shop catalog photos while preserving each image's natural proportions. */
 .catalog-image img{width:88%!important;margin:0 auto!important}
+
+
+/* A refined frame groups each Shop photo with its name, category and price. */
+.catalog-card{border:1px solid rgba(121,35,50,.22)!important;padding:10px!important;background:rgba(255,253,249,.78)!important;border-radius:3px!important;transition:border-color .2s,box-shadow .2s,transform .2s!important}
+.catalog-card:hover{border-color:var(--burgundy)!important;box-shadow:0 5px 18px rgba(35,20,15,.08);transform:translateY(-2px)}
+.catalog-info{padding:12px 2px 3px!important}
+@media(max-width:620px){.catalog-card{padding:7px!important}.catalog-info{padding:10px 2px 2px!important}}
