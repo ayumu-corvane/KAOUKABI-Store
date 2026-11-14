@@ -3,7 +3,7 @@ import {onAuthStateChanged,signInWithPopup,signOut} from 'firebase/auth';
 import {collection,doc,getDocs,getDoc,query,where,orderBy,setDoc,addDoc,serverTimestamp} from 'firebase/firestore';
 import {auth,db,googleProvider} from './firebase';
 import {ArrowLeft,ArrowRight,ShoppingBag,Search,UserRound,LogOut,X,Plus,Minus,Instagram,Youtube,Lock,Trash2} from 'lucide-react';
-const OWNER_EMAIL='replace-with-your-google-email@example.com';
+const OWNER_EMAIL='ayumucorvane@gmail.com';
 const LOGO='/kaoukabi-logo.svg';
 const SOCIAL={instagram:'https://www.instagram.com/kaoukabi_k.b_?xtok=dndpa2ttajB3cHhj&utm_source=ig_contact_invite',tiktok:'https://www.tiktok.com/@kaoukabi_kb?_r=1&_t=ZS-9BOvNQn2d5s',youtube:'https://youtube.com/@kaoukabi-kb?si=qzOUORxC3tBc_NJs'};
 const Q={home:['« La qualité n’est jamais un accident ; elle est toujours le résultat d’une intention élevée, d’un effort sincère, d’une direction intelligente et d’une exécution habile. »','William A. Foster'],shop:['« Soyez une mesure de la qualité. Certaines personnes ne sont pas habituées à un environnement où l’excellence est attendue. »','Steve Jobs'],social:['« Les gens oublient la vitesse avec laquelle vous avez fait un travail, mais ils se souviennent de la qualité avec laquelle vous l’avez fait. »','Howard Newton'],about:['« Avec le temps, un travail de qualité finira par vous amener un public. »','Nicholas Sparks'],dashboard:['« La qualité n’est jamais un accident. »','KAOUKABI']};
