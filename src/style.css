@@ -86,3 +86,8 @@
 /* FINAL: make Lol 2 visibly present behind every interior page. The previous 95.5% cream overlay made it almost invisible. */
 .section-screen{background-color:#fffdf9!important;background-image:linear-gradient(rgba(255,253,249,.42),rgba(255,253,249,.42)),url('/Lol-2.jfif')!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
 @media(max-width:620px){.section-screen{background-attachment:scroll!important}}
+
+
+/* Nudge the homepage quotation slightly higher without moving the brand title or navigation. */
+.home-quote{transform:translateY(-23px)!important}
+@media(max-width:620px){.home-quote{transform:translateY(-14px)!important}}
