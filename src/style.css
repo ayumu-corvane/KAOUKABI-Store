@@ -164,3 +164,22 @@
 .detail-thumbnails img{width:100%;height:100%;object-fit:contain}
 
 .color-image-manager h5{font:14px 'Playfair Display';margin:4px 0 7px;color:var(--green)}
+
+
+/* Owner dashboard: use the available desktop width instead of a long single-column form. */
+.dashboard-view{width:min(100%,1500px);max-width:none;margin:24px auto;padding:0 1vw}
+.dashboard-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,.8fr);align-items:start;gap:22px}
+.publish-form{width:100%;max-width:none;margin:18px 0 24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px;align-items:start}
+.publish-form>h3,.publish-form>.color-image-manager,.publish-form>.dark-button,.publish-form>.form-row{grid-column:1/-1}
+.publish-form>label{min-width:0}
+.publish-form>label input,.publish-form>label select,.publish-form>label textarea{width:100%;min-width:0}
+.publish-form>.form-row{width:100%}
+.color-image-manager{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 14px}
+.color-image-manager>h4,.color-image-manager>h5,.color-image-manager>p{grid-column:1/-1}
+.color-image-row{min-width:0}
+.color-image-row input[type=file]{max-width:100%;min-width:0}
+.dashboard-products{min-width:0;margin:18px 0 24px;padding:22px;background:rgba(255,253,249,.82);border:1px solid #e2d8cb}
+.dashboard-products>div{gap:12px;align-items:center}
+.dashboard-products>div span{min-width:0;overflow-wrap:anywhere}
+@media(max-width:900px){.dashboard-layout{grid-template-columns:minmax(0,1.4fr) minmax(220px,.8fr);gap:14px}.color-image-manager{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.dashboard-view{padding:0}.dashboard-layout{grid-template-columns:1fr}.publish-form{grid-template-columns:1fr;padding:17px}.publish-form>h3,.publish-form>.color-image-manager,.publish-form>.dark-button,.publish-form>.form-row{grid-column:1}.publish-form>.form-row{grid-template-columns:1fr}.color-image-manager{grid-template-columns:1fr}.dashboard-products{margin-top:0}}
