@@ -42,3 +42,35 @@
 .home-screen{background-image:url('/Lol.jfif');background-position:center;background-size:cover;background-repeat:no-repeat}
 .section-screen{background-color:var(--cream);background-image:linear-gradient(rgba(255,253,249,.965),rgba(255,253,249,.965)),url('/Lol.jfif');background-position:center;background-size:cover;background-attachment:fixed}
 @media(max-width:620px){.section-screen{background-attachment:scroll}}
+
+/* Section background uses Lol 2 with a very subtle watermark treatment. */
+.section-screen{background-color:var(--cream);background-image:linear-gradient(rgba(255,253,249,.955),rgba(255,253,249,.955)),url('/Lol-2.jfif');background-position:center;background-size:cover;background-attachment:fixed}
+@media(max-width:620px){.section-screen{background-attachment:scroll}}
+/* Small circular brand seal below homepage navigation */
+.home-menu-logo{grid-column:2;grid-row:2;justify-self:center;align-self:start;width:clamp(48px,5.5vw,72px);height:clamp(48px,5.5vw,72px);object-fit:cover;border-radius:50%;border:2px solid var(--black);background:#fff;margin-top:9px;box-shadow:0 2px 9px #0002}
+.home-quote{transform:translateY(-13px)}
+.home-footer{font-size:8px;letter-spacing:1.8px}
+.home-footer span:first-child{font-size:9px;letter-spacing:2px;font-weight:700}
+.brand-lockup img{object-fit:cover;border-radius:50%;border:2px solid var(--black);background:#fff}
+.account-view{min-height:calc(100% - 70px);display:grid;place-items:center;padding:36px 16px}
+.account-panel{width:min(470px,100%);margin:0 auto;background:rgba(255,253,249,.94);border:1px solid #e5dbcf;box-shadow:0 18px 55px #1b100b12;padding:clamp(24px,4vw,42px);text-align:center}
+.account-panel .eyebrow{margin:0 0 12px}
+.account-panel h2{font:500 clamp(30px,4vw,40px)/1.12 'Playfair Display';margin:0;color:var(--black)}
+.account-panel .simple-intro{margin:12px auto 24px;font-size:12px}
+.google-button{width:100%;min-height:47px;display:flex;justify-content:center;align-items:center;gap:12px;border:1px solid #d9d0c5;background:#fff;color:#171411;font-size:10px;letter-spacing:1px;font-weight:700}
+.google-button span{font-size:18px;font-weight:700;color:#4285f4}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:#92877b;font-size:8px;letter-spacing:1.5px}
+.auth-divider:before,.auth-divider:after{content:"";height:1px;background:#e2d9ce;flex:1}
+.auth-form{text-align:left}
+.auth-form label{display:flex;flex-direction:column;gap:7px;margin:13px 0;font-size:10px;font-weight:700;color:#39322b}
+.auth-form input{height:46px;border:1px solid #d9d0c5;background:#fff;padding:0 13px;font-size:12px;outline-color:var(--green);border-radius:2px}
+.auth-form .dark-button{width:100%;margin-top:8px;min-height:46px}
+.auth-error{font-size:11px;line-height:1.5;color:#a12a32;background:#fff0f0;padding:10px}
+.auth-switch{font-size:11px;color:#746b62;margin:20px 0 0}
+.auth-switch button{border:0;background:none;color:var(--burgundy);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.signed-in{display:flex;flex-direction:column;align-items:center;gap:10px;padding:25px 0 5px}
+.signed-in>svg{color:var(--green)}
+.signed-in b{font:20px 'Playfair Display'}
+.signed-in span{font-size:11px;color:#82786e}
+.signed-in .dark-button{margin-top:12px}
+@media(max-width:620px){.home-menu-logo{width:48px;height:48px;grid-row:auto;margin-top:2px}.home-quote{transform:translateY(-8px)}.home-footer span:first-child{font-size:7px}.account-view{padding:22px 2px}.account-panel{padding:25px 20px}.account-panel h2{font-size:32px}}
