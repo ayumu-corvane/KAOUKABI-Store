@@ -126,3 +126,17 @@
 .catalog-card:hover{border-color:var(--burgundy)!important;box-shadow:0 5px 18px rgba(35,20,15,.08);transform:translateY(-2px)}
 .catalog-info{padding:12px 2px 3px!important}
 @media(max-width:620px){.catalog-card{padding:7px!important}.catalog-info{padding:10px 2px 2px!important}}
+
+
+/* Warm, editorial layout for the complete KAOUKABI story. */
+.about-view{align-items:flex-start!important;justify-content:center!important;padding-top:42px!important;padding-bottom:54px!important}
+.about-inner{width:min(100%,860px)!important;margin:0 auto!important}
+.about-inner>h2{margin-bottom:24px!important}
+.about-copy{max-width:760px;margin:0 auto;text-align:left;color:var(--ink,#302522);font-size:15px;line-height:1.9;letter-spacing:.01em}
+.about-copy p{margin:0 0 19px}
+.about-copy .about-tagline{font-family:Georgia,serif;font-size:20px;font-style:italic;line-height:1.55;color:var(--burgundy,#792332);text-align:center;margin:0 auto 27px;max-width:620px}
+.about-copy strong{color:var(--burgundy,#792332)}
+.about-copy .about-thanks{text-align:center;margin-top:28px;margin-bottom:10px}
+.about-copy .about-signoff{text-align:center;font-family:Georgia,serif;font-style:italic;line-height:1.8;margin-top:0}
+.about-copy .about-signoff strong{font-style:normal;letter-spacing:.08em}
+@media(max-width:620px){.about-view{padding-top:24px!important;padding-bottom:35px!important}.about-copy{font-size:14px;line-height:1.8}.about-copy p{margin-bottom:16px}.about-copy .about-tagline{font-size:18px;margin-bottom:22px}}
