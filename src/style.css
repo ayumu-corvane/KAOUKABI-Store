@@ -45,3 +45,14 @@
  .product-info h3{font-size:16px}
  .product-add-button{min-height:40px;font-size:8px;margin-top:12px}
 }
+
+
+/* Product color and quantity selectors */
+.purchase-options{display:flex;align-items:end;gap:12px;margin-top:16px}
+.purchase-field{display:flex;flex-direction:column;gap:7px;min-width:0;flex:1}
+.purchase-field>span,.no-colors{font-size:8px;letter-spacing:1.25px;color:#776e68;font-weight:700}
+.purchase-field select,.purchase-field input{height:39px;width:100%;min-width:0;border:1px solid #d9d0c8;background:#fffdfa;color:var(--ink);padding:0 10px;font:11px 'DM Sans';border-radius:0;outline-color:var(--green)}
+.quantity-field{max-width:92px;flex:0 0 92px}
+.no-colors{margin:0;align-self:center;flex:1;line-height:1.5}
+.cart-item-color{display:block;font-size:10px;color:#827970;margin:0 0 6px}
+@media(max-width:620px){.purchase-options{gap:8px;margin-top:13px}.purchase-field>span,.no-colors{font-size:7px}.purchase-field select,.purchase-field input{height:36px;font-size:10px}.quantity-field{max-width:76px;flex-basis:76px}}
