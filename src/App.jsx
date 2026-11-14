@@ -1,156 +1,44 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { collection, doc, getDocs, getDoc, query, where, orderBy, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db, googleProvider } from './firebase';
-import { Search, ShoppingBag, Menu, X, ArrowRight, UserRound, LogOut, Plus, Minus, Heart, Instagram, Youtube } from 'lucide-react';
-
-const seed = [
-  {id:'look-01',name:'The Everyday Edit',category:'Clothing',price:490,tag:'NEW',description:'An effortless wardrobe staple with a considered silhouette.',image:'/kaoukabi-logo.webp'},
-  {id:'bag-01',name:'The City Tote',category:'Bags',price:620,tag:'BESTSELLER',description:'Your everyday companion, made for everything ahead.',image:'/kaoukabi-logo.webp'},
-  {id:'acc-01',name:'The Signature Set',category:'Accessories',price:180,tag:'NEW',description:'Small details. A distinctive finish.',image:'/kaoukabi-logo.webp'},
-  {id:'look-02',name:'Soft Structure',category:'Clothing',price:540,tag:'',description:'Clean lines and a relaxed, confident fit.',image:'/kaoukabi-logo.webp'},
-  {id:'bag-02',name:'The Mini Shoulder',category:'Bags',price:390,tag:'',description:'A compact silhouette for your essentials.',image:'/kaoukabi-logo.webp'},
-  {id:'acc-02',name:'Everyday Gold Tones',category:'Accessories',price:150,tag:'',description:'Finishing touches for your own kind of style.',image:'/kaoukabi-logo.webp'}
-];
-
-
-function ProductReviews({ product, user }) {
-  const [reviews,setReviews]=useState([]);
-  const [rating,setRating]=useState(0);
-  const [comment,setComment]=useState('');
-  const [loadingReviews,setLoadingReviews]=useState(true);
-  const [saving,setSaving]=useState(false);
-  const [reviewed,setReviewed]=useState(false);
-  const [message,setMessage]=useState('');
-
-  useEffect(()=>{
-    let alive=true;
-    const load=async()=>{
-      try {
-        const snap=await getDocs(query(collection(db,'products',product.id,'reviews'),orderBy('createdAt','desc')));
-        if(alive) setReviews(snap.docs.map(d=>({id:d.id,...d.data()})));
-        if(user){
-          const mine=await getDoc(doc(db,'products',product.id,'reviews',user.uid));
-          if(alive) setReviewed(mine.exists());
-        }
-      } catch(e) {
-        if(alive) setMessage('Reviews are temporarily unavailable.');
-      } finally { if(alive) setLoadingReviews(false); }
-    };
-    load();
-    return ()=>{alive=false};
-  },[product.id,user]);
-
-  const average=reviews.length?(reviews.reduce((sum,r)=>sum+Number(r.rating||0),0)/reviews.length):0;
-  const submit=async(e)=>{
-    e.preventDefault();
-    if(!user){setMessage('Please sign in to leave a review.');return;}
-    if(!rating||!comment.trim()){setMessage('Choose a star rating and write a comment first.');return;}
-    setSaving(true);setMessage('');
-    try {
-      await setDoc(doc(db,'products',product.id,'reviews',user.uid),{
-        userId:user.uid,
-        userName:user.displayName||'KAOUKABI customer',
-        rating,
-        comment:comment.trim().slice(0,1000),
-        createdAt:serverTimestamp()
-      });
-      setReviewed(true);
-      setReviews(old=>[{id:user.uid,userName:user.displayName||'KAOUKABI customer',rating,comment:comment.trim(),createdAt:new Date()},...old]);
-      setComment('');
-      setMessage('Thank you — your review has been published!');
-    } catch(e) {
-      setMessage('We couldn’t save your review. Please try again in a moment.');
-    } finally {setSaving(false);}
-  };
-
-  return <details className="reviews">
-    <summary><span>REVIEWS & RATINGS</span><span className="review-summary">{reviews.length?<>★ {average.toFixed(1)} · {reviews.length} {reviews.length===1?'review':'reviews'}</>:'Be the first to review'}</span></summary>
-    <div className="reviews-content">
-      <div className="reviews-overview"><strong>{reviews.length?average.toFixed(1):'—'}</strong><span className="review-stars">{'★'.repeat(Math.round(average))}{'☆'.repeat(5-Math.round(average))}</span><small>{reviews.length} {reviews.length===1?'customer review':'customer reviews'}</small></div>
-      {loadingReviews?<p className="review-muted">Loading reviews…</p>:reviews.length?reviews.map(r=><article className="review-entry" key={r.id}><div className="review-entry-head"><strong>{r.userName||'KAOUKABI customer'}</strong><span className="review-stars">{'★'.repeat(Number(r.rating)||0)}{'☆'.repeat(5-(Number(r.rating)||0))}</span></div><p>{r.comment}</p></article>):<p className="review-muted">No reviews yet. Share your experience with this piece.</p>}
-      {reviewed?<p className="review-muted">You’ve already reviewed this piece. Thank you!</p>:<form className="review-form" onSubmit={submit}>
-        <h4>{user?'Write a review':'Sign in to leave a review'}</h4>
-        {user?<><div className="star-picker" role="group" aria-label="Choose a rating">{[1,2,3,4,5].map(n=><button type="button" key={n} className={n<=rating?'selected':''} onClick={()=>setRating(n)} aria-label={n+' stars'}>★</button>)}</div><textarea value={comment} onChange={e=>setComment(e.target.value)} maxLength={1000} placeholder="What did you think of this piece?" rows="3"/><button className="review-submit" disabled={saving}>{saving?'PUBLISHING…':'PUBLISH REVIEW'}</button></>:<p className="review-muted">Use the account icon at the top of the page to sign in first.</p>}
-        {message&&<p className="review-message">{message}</p>}
-      </form>}
-    </div>
-  </details>;
-}
-
-const EUR_MAD_RATE = 10.95; // Approximate reference rate; refresh periodically.
-const money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' MAD';
-const euro = n => '€' + (Number(n || 0) / EUR_MAD_RATE).toFixed(2);
-
+import React,{useEffect,useMemo,useState} from 'react';
+import {onAuthStateChanged,signInWithPopup,signOut} from 'firebase/auth';
+import {collection,doc,getDocs,getDoc,query,where,orderBy,setDoc,addDoc,serverTimestamp} from 'firebase/firestore';
+import {auth,db,googleProvider} from './firebase';
+import {ArrowLeft,ArrowRight,ShoppingBag,Search,UserRound,LogOut,X,Plus,Minus,Instagram,Youtube,Lock,Trash2} from 'lucide-react';
+const OWNER_EMAIL='replace-with-your-google-email@example.com';
+const LOGO='/kaoukabi-logo.svg';
+const SOCIAL={instagram:'https://www.instagram.com/kaoukabi_k.b_?xtok=dndpa2ttajB3cHhj&utm_source=ig_contact_invite',tiktok:'https://www.tiktok.com/@kaoukabi_kb?_r=1&_t=ZS-9BOvNQn2d5s',youtube:'https://youtube.com/@kaoukabi-kb?si=qzOUORxC3tBc_NJs'};
+const Q={home:['« La qualité n’est jamais un accident ; elle est toujours le résultat d’une intention élevée, d’un effort sincère, d’une direction intelligente et d’une exécution habile. »','William A. Foster'],shop:['« Soyez une mesure de la qualité. Certaines personnes ne sont pas habituées à un environnement où l’excellence est attendue. »','Steve Jobs'],social:['« Les gens oublient la vitesse avec laquelle vous avez fait un travail, mais ils se souviennent de la qualité avec laquelle vous l’avez fait. »','Howard Newton'],about:['« Avec le temps, un travail de qualité finira par vous amener un public. »','Nicholas Sparks'],dashboard:['« La qualité n’est jamais un accident. »','KAOUKABI']};
+const money=n=>new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(Number(n)||0)+' MAD',euro=n=>'€'+(Number(n||0)/10.95).toFixed(2);
+const seed=[{id:'look-01',name:'The Everyday Edit',category:'Clothing',price:490,description:'An effortless wardrobe staple with a considered silhouette.',colors:['Black','Cream','Burgundy'],image:LOGO},{id:'bag-01',name:'The City Tote',category:'Bags',price:620,description:'Your everyday companion, made for everything ahead.',colors:['Black','Tan'],image:LOGO},{id:'acc-01',name:'The Signature Set',category:'Accessories',price:180,description:'Small details. A distinctive finish.',colors:['Gold','Silver'],image:LOGO}];
+const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').trim();
+function score(p,q){const ts=norm(q).split(/\s+/).filter(Boolean);if(!ts.length)return 1;const h=norm([p.name,p.description,p.category,...(p.colors||[])].join(' ')),w=h.split(/\s+/);let n=0;ts.forEach(t=>{if(h.includes(t))n+=2;else if(w.some(x=>x.startsWith(t)||t.startsWith(x)))n+=1;else if(w.some(x=>x.length>3&&t.length>3&&edit(x,t)<=1))n+=.7});return n/ts.length}
+function edit(a,b){if(Math.abs(a.length-b.length)>1)return 3;let p=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(c[j-1]+1,p[j]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]}
+function Reviews({product,user}){const [items,S]=useState([]),[rating,R]=useState(0),[comment,C]=useState(''),[msg,M]=useState(''),[mine,Mi]=useState(false),[busy,B]=useState(false);useEffect(()=>{let live=true;(async()=>{try{const s=await getDocs(query(collection(db,'products',product.id,'reviews'),orderBy('createdAt','desc')));if(live)S(s.docs.map(d=>({id:d.id,...d.data()})));if(user){const m=await getDoc(doc(db,'products',product.id,'reviews',user.uid));if(live)Mi(m.exists())}}catch(e){if(live)M('Reviews temporarily unavailable.')}})();return()=>{live=false}},[product.id,user]);const avg=items.length?items.reduce((a,r)=>a+Number(r.rating||0),0)/items.length:0;async function submit(e){e.preventDefault();if(!user){M('Sign in to leave a review.');return}if(!rating||!comment.trim()){M('Choose a star rating and write a comment.');return}B(true);try{const d={userId:user.uid,userName:user.displayName||'KAOUKABI customer',rating,comment:comment.trim().slice(0,1000),createdAt:serverTimestamp()};await setDoc(doc(db,'products',product.id,'reviews',user.uid),d);S(old=>[{id:user.uid,...d,createdAt:new Date()},...old]);Mi(true);C('');M('Thank you — your review is published.')}catch(e){M('Could not publish review. Check permissions.')}finally{B(false)}}return <section className="reviews-panel"><div className="reviews-title"><h3>Customer reviews</h3><span>{items.length?'★ '+avg.toFixed(1)+' · '+items.length+' reviews':'Be the first to review'}</span></div>{items.map(r=><article className="review" key={r.id}><div><b>{r.userName||'KAOUKABI customer'}</b><span className="stars">{'★'.repeat(Number(r.rating)||0)}{'☆'.repeat(5-(Number(r.rating)||0))}</span></div><p>{r.comment}</p></article>)}{!items.length&&<p className="muted">No reviews yet.</p>}{mine?<p className="muted">You have already reviewed this item. Thank you!</p>:<form className="review-form" onSubmit={submit}><h4>{user?'Leave a review':'Sign in to leave a review'}</h4>{user?<><div className="star-pick">{[1,2,3,4,5].map(n=><button type="button" key={n} className={n<=rating?'on':''} onClick={()=>R(n)}>★</button>)}</div><textarea rows="3" maxLength="1000" value={comment} onChange={e=>C(e.target.value)} placeholder="Share your thoughts…"/><button className="dark-button" disabled={busy}>{busy?'PUBLISHING…':'PUBLISH REVIEW'}</button></>:<p className="muted">Sign in with Google to leave a review.</p>}{msg&&<p className="form-message">{msg}</p>}</form>}</section>}
+function Social(){return <div className="social-cards"><a href={SOCIAL.instagram} target="_blank" rel="noreferrer"><Instagram/><span><b>Instagram</b><small>@kaoukabi_k.b_</small></span><ArrowRight/></a><a href={SOCIAL.tiktok} target="_blank" rel="noreferrer"><b className="tiktok-mark">♪</b><span><b>TikTok</b><small>@kaoukabi_kb</small></span><ArrowRight/></a><a href={SOCIAL.youtube} target="_blank" rel="noreferrer"><Youtube/><span><b>YouTube</b><small>@kaoukabi-kb</small></span><ArrowRight/></a></div>}
 export default function App(){
-  const [products,setProducts]=useState(seed);
-  const [category,setCategory]=useState('All');
-  const [search,setSearch]=useState('');
-  const [cart,setCart]=useState([]);
-  const [cartOpen,setCartOpen]=useState(false);
-  const [mobileOpen,setMobileOpen]=useState(false);
-  const [user,setUser]=useState(null);
-  const [notice,setNotice]=useState('');
-  const [favorites,setFavorites]=useState([]);
-  const [loading,setLoading]=useState(true);
-  const [purchaseOptions,setPurchaseOptions]=useState({});
-
-  useEffect(()=>onAuthStateChanged(auth,u=>setUser(u)),[]);
-  useEffect(()=>{
-    let alive=true;
-    getDocs(query(collection(db,'products'),where('published','==',true)))
-      .then(s=>{if(alive&&!s.empty)setProducts(s.docs.map(d=>({id:d.id,...d.data()})));})
-      .catch(()=>{})
-      .finally(()=>{if(alive)setLoading(false)});
-    return ()=>{alive=false};
-  },[]);
-  const shown=useMemo(()=>products.filter(p=>(category==='All'||p.category===category)&&((p.name||'').toLowerCase().includes(search.toLowerCase())||(p.description||'').toLowerCase().includes(search.toLowerCase()))),[products,category,search]);
-  const count=cart.reduce((n,p)=>n+p.qty,0);
-  const total=cart.reduce((n,p)=>n+p.price*p.qty,0);
-  const add=(p,color='',qty=1)=>{const cartKey=p.id+'::'+color;setCart(old=>{const found=old.find(x=>x.cartKey===cartKey);return found?old.map(x=>x.cartKey===cartKey?{...x,qty:x.qty+qty}:x):[...old,{...p,cartKey,color,qty}]});setNotice('Added to your bag');setTimeout(()=>setNotice(''),2200)};
-  const change=(cartKey,delta)=>setCart(old=>old.map(p=>p.cartKey===cartKey?{...p,qty:p.qty+delta}:p).filter(p=>p.qty>0));
-  const setProductOption=(id,field,value)=>setPurchaseOptions(old=>({...old,[id]:{...old[id],[field]:value}}));
-  const selectedColor=p=>purchaseOptions[p.id]?.color??(Array.isArray(p.colors)&&p.colors.length?p.colors[0]:'');
-  const selectedQty=p=>Math.max(1,Number(purchaseOptions[p.id]?.qty)||1);
-  const whatsapp=()=>{
-    const phone='212600000000'; // Replace with the store's WhatsApp number before launch.
-    const lines=cart.map(p=>p.name+(p.color?' · Color: '+p.color:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\\n');
-    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent('Hello KAOUKABI! I would like to order:\\n'+lines+'\\nTotal: '+money(total)),'_blank','noopener,noreferrer');
-  };
-  const login=async()=>{try{await signInWithPopup(auth,googleProvider)}catch(e){setNotice(e.code==='auth/popup-closed-by-user'?'Sign-in cancelled':'Could not sign in. Check Firebase Authentication settings.')}};
-  const categories=['All','Clothing','Bags','Accessories'];
-  return <div className="site">
-    <div className="announcement">A LITTLE SOMETHING SPECIAL — DISCOVER THE NEW COLLECTION <span>✳</span></div>
-    <header className="header">
-      <button className="icon-btn mobile-menu" onClick={()=>setMobileOpen(!mobileOpen)} aria-label="Menu">{mobileOpen?<X/>:<Menu/>}</button>
-      <nav className={'nav '+(mobileOpen?'nav-open':'')}><a href="#shop" onClick={()=>setMobileOpen(false)}>SHOP</a><a href="#story" onClick={()=>setMobileOpen(false)}>OUR STORY</a><a href="#featured" onClick={()=>setMobileOpen(false)}>THE EDIT</a></nav>
-      <a className="wordmark" href="#"><img src="/kaoukabi-logo.webp" alt="KAOUKABI logo"/><span>KAOUKABI</span><small>MADE TO BE REMEMBERED</small></a>
-      <div className="header-actions">
-        <label className="searchbox"><Search size={17}/><input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search pieces..." /></label>
-        {user?<button className="icon-btn" title="Sign out" onClick={()=>signOut(auth)}><LogOut size={19}/></button>:<button className="icon-btn" title="Sign in with Google" onClick={login}><UserRound size={19}/></button>}
-        <button className="bag-btn" onClick={()=>setCartOpen(true)} aria-label="Open shopping bag"><ShoppingBag size={19}/><span>BAG ({count})</span></button>
-      </div>
-    </header>
-    <main>
-      <section className="hero">
-        <div className="hero-copy"><p className="eyebrow">THE KAOUKABI POINT OF VIEW</p><h1>Style is in<br/><em>the details.</em></h1><p className="hero-text">Pieces to keep. Details to remember. Discover a considered edit of clothing, bags and accessories.</p><a className="button button-light" href="#shop">EXPLORE THE COLLECTION <ArrowRight size={16}/></a><div className="hero-note">DESIGNED WITH INTENTION · MADE IN MOROCCO</div></div>
-        <div className="hero-image"><img src="/kaoukabi-logo.webp" alt="KAOUKABI official logo"/><div className="image-stamp">THE<br/>NEW<br/><b>MOOD</b></div></div>
-        <div className="hero-side">KAOUKABI — EST. WITH LOVE</div>
-      </section>
-      <section className="ticker"><span>LESS, BUT BETTER</span><b>✳</b><span>YOUR STYLE, YOUR STORY</span><b>✳</b><span>MADE TO BE REMEMBERED</span></section>
-      <section className="shop-section" id="shop">
-        <div className="section-heading"><div><p className="eyebrow">A CURATED SELECTION</p><h2>Find your <em>favourite.</em></h2></div><p>Thoughtful pieces for every version of you.</p></div>
-        <div className="shop-toolbar"><div className="filters">{categories.map(c=><button key={c} className={category===c?'filter active':'filter'} onClick={()=>setCategory(c)}>{c==='All'?'ALL':c.toUpperCase()}</button>)}</div><span className="result-count">{shown.length} PIECES</span></div>
-        <div className="product-grid">{shown.map((p,i)=><article className="product" key={p.id}><div className="product-image"><img src="/kaoukabi-logo.webp" alt="KAOUKABI official logo" loading="lazy"/>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={'heart '+(favorites.includes(p.id)?'hearted':'')} onClick={()=>setFavorites(old=>old.includes(p.id)?old.filter(x=>x!==p.id):[...old,p.id])} aria-label="Save favourite"><Heart size={18} fill={favorites.includes(p.id)?'currentColor':'none'}/></button></div><div className="product-info"><div className="product-price"><strong>{money(p.price)}</strong><span title="Approximate euro conversion">{`(${euro(p.price)})`}</span></div><h3>{p.name}</h3><p className="product-category">{p.category}</p></div><p className="product-description">{p.description}</p><div className="purchase-options">{Array.isArray(p.colors)&&p.colors.length>0?<label className="purchase-field"><span>ITEM COLOR</span><select value={selectedColor(p)} onChange={e=>setProductOption(p.id,'color',e.target.value)}>{p.colors.map(color=><option key={color} value={color}>{color}</option>)}</select></label>:<p className="no-colors">ITEM COLOR: No color options listed</p>}<label className="purchase-field quantity-field"><span>QUANTITY</span><input type="number" min="1" step="1" value={selectedQty(p)} onChange={e=>setProductOption(p.id,'qty',e.target.value)}/></label></div><button className="product-add-button" onClick={()=>add(p,selectedColor(p),selectedQty(p))}>ADD TO CART <ShoppingBag size={15}/></button><ProductReviews product={p} user={user}/></article>)}</div>
-        {!shown.length&&<div className="empty">No pieces found. Try another search.</div>}
-        {loading&&<p className="loading-note">Checking the latest collection…</p>}
-      </section>
-      <section className="feature" id="featured"><div className="feature-photo"><img src="/kaoukabi-logo.webp" alt="KAOUKABI official logo"/></div><div className="feature-copy"><p className="eyebrow">THE ART OF EVERYDAY</p><h2>Not just what<br/>you wear. <em>How<br/>you feel.</em></h2><p>We believe the right piece does more than complete an outfit. It becomes part of your story.</p><a href="#shop" className="text-link">DISCOVER THE EDIT <ArrowRight size={16}/></a></div></section>
-      <section className="story" id="story"><p className="eyebrow">A NOTE FROM KAOUKABI</p><h2>Rooted in Morocco.<br/><em>Made for everywhere.</em></h2><p>KAOUKABI is a celebration of personal style, thoughtful details and the beauty of pieces chosen with care.</p><span>WITH LOVE, KAOUKABI ♡</span></section>
-      <section className="newsletter"><div><p className="eyebrow">STAY IN THE KNOW</p><h2>A little note from us.</h2><p>Follow along for new arrivals, stories and special finds.</p></div><div className="social-links"><a href="https://www.instagram.com/kaoukabi_k.b_?xtok=dndpa2ttajB3cHhj&utm_source=ig_contact_invite" target="_blank" rel="noreferrer"><Instagram size={17}/> INSTAGRAM</a><a href="https://www.tiktok.com/@kaoukabi_kb?_r=1&_t=ZS-9BOvNQn2d5s" target="_blank" rel="noreferrer">♪ TIKTOK</a><a href="https://youtube.com/@kaoukabi-kb?si=qzOUORxC3tBc_NJs" target="_blank" rel="noreferrer"><Youtube size={17}/> YOUTUBE</a></div></section>
-    </main>
-    <footer><a className="footer-logo" href="#"><img src="/kaoukabi-logo.webp" alt="KAOUKABI logo"/> KAOUKABI</a><span>THOUGHTFULLY CHOSEN. FOREVER YOURS.</span><div className="footer-social"><a href="https://www.instagram.com/kaoukabi_k.b_/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a><a href="https://www.tiktok.com/@kaoukabi_kb?_r=1&_t=ZS-9BOvNQn2d5s" target="_blank" rel="noopener noreferrer">TIKTOK</a><a href="https://youtube.com/@kaoukabi-kb?si=qzOUORxC3tBc_NJs" target="_blank" rel="noopener noreferrer">YOUTUBE</a></div><span>© {new Date().getFullYear()} KAOUKABI</span></footer>
-    {notice&&<div className="toast">{notice}</div>}
-    {cartOpen&&<div className="drawer-backdrop" onClick={()=>setCartOpen(false)}><aside className="cart-drawer" onClick={e=>e.stopPropagation()}><div className="drawer-head"><h2>Your bag <span>({count})</span></h2><button className="icon-btn" onClick={()=>setCartOpen(false)}><X/></button></div>{!cart.length?<div className="cart-empty"><ShoppingBag size={35}/><h3>Your bag is waiting.</h3><p>Find something you love.</p><button className="button button-dark" onClick={()=>setCartOpen(false)}>CONTINUE SHOPPING</button></div>:<><div className="cart-items">{cart.map(p=><div className="cart-item" key={p.cartKey}><img src="/kaoukabi-logo.svg" alt="KAOUKABI official logo"/><div className="cart-item-info"><h3>{p.name}</h3>{p.color&&<small className="cart-item-color">Color: {p.color}</small>}<span>{money(p.price)}</span><div className="quantity"><button onClick={()=>change(p.cartKey,-1)}><Minus size={13}/></button><span>{p.qty}</span><button onClick={()=>change(p.cartKey,1)}><Plus size={13}/></button></div></div><strong>{money(p.price*p.qty)}</strong></div>)}</div><div className="cart-bottom"><div className="subtotal"><span>Subtotal</span><strong>{money(total)}</strong></div><p>Delivery details will be confirmed on WhatsApp.</p><button className="button button-dark checkout" onClick={whatsapp}>ORDER VIA WHATSAPP <ArrowRight size={16}/></button><small>Online card payment will be available once the store payment provider is connected.</small></div></>}</aside></div>}
-  </div>;
+const [page,P]=useState('home'),[products,Ps]=useState(seed),[user,U]=useState(null),[search,Se]=useState(''),[category,Ca]=useState('All'),[selected,Sel]=useState(null),[cart,Cart]=useState([]),[cartOpen,Co]=useState(false),[notice,N]=useState(''),[color,Col]=useState(''),[qty,Qty]=useState(1),[busy,Bu]=useState(false),[form,F]=useState({name:'',description:'',price:'',category:'Clothing',colors:'',image:LOGO});
+const owner=(user?.email||'').toLowerCase()===OWNER_EMAIL.toLowerCase()&&!OWNER_EMAIL.startsWith('replace-');
+useEffect(()=>onAuthStateChanged(auth,U),[]);
+useEffect(()=>{let live=true;getDocs(query(collection(db,'products'),where('published','==',true))).then(s=>{if(live&&!s.empty)Ps(s.docs.map(d=>({id:d.id,...d.data()})))}).catch(()=>{});return()=>{live=false}},[]);
+function toast(t){N(t);setTimeout(()=>N(''),2600)}function go(p){P(p);Sel(null);Se('');Ca('All');if(p==='dashboard'&&!owner)toast('Only Owner can access this section')}
+async function login(){try{await signInWithPopup(auth,googleProvider)}catch(e){toast('Sign-in could not be completed. Try again.')}}
+const shown=useMemo(()=>products.filter(p=>category==='All'||p.category===category).map(p=>({...p,_score:score(p,search)})).filter(p=>!search.trim()||p._score>=.45).sort((a,b)=>b._score-a._score),[products,category,search]);
+const count=cart.reduce((n,p)=>n+p.qty,0),total=cart.reduce((n,p)=>n+p.price*p.qty,0);
+function add(p,c=color,q=qty){const key=p.id+'::'+c;Cart(old=>{const x=old.find(z=>z.key===key);return x?old.map(z=>z.key===key?{...z,qty:z.qty+q}:z):[...old,{...p,key,color:c,qty:q}]});toast('Added to Your Cart')}
+function change(key,d){Cart(old=>old.map(p=>p.key===key?{...p,qty:p.qty+d}:p).filter(p=>p.qty>0))}
+function openProduct(p){Sel(p);Col((p.colors||[])[0]||'');Qty(1);window.scrollTo({top:0,behavior:'instant'})}
+function checkout(){const lines=cart.map(p=>p.name+' · '+(p.color||'No color')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\n');window.open('https://wa.me/212600000000?text='+encodeURIComponent('Bonjour KAOUKABI, je souhaite commander:\n'+lines+'\nTotal: '+money(total)),'_blank','noopener,noreferrer')}
+async function publish(e){e.preventDefault();if(!owner){toast('Only Owner can access this section');return}if(!form.name.trim()||Number(form.price)<=0){toast('Enter a product name and valid price.');return}Bu(true);try{const d={name:form.name.trim(),description:form.description.trim(),price:Number(form.price),category:form.category,colors:form.colors.split(',').map(x=>x.trim()).filter(Boolean),image:form.image.trim()||LOGO,published:true,createdAt:serverTimestamp()};const ref=await addDoc(collection(db,'products'),d);Ps(old=>[{id:ref.id,...d},...old]);F({name:'',description:'',price:'',category:'Clothing',colors:'',image:LOGO});toast('Product published.')}catch(e){toast('Could not publish. Check Firestore permissions.')}finally{Bu(false)}}
+const quote=Q[page]||Q.home;
+return <div className="app-shell">
+<header className="topbar"><button className="brand-lockup" onClick={()=>go('home')}><img src={LOGO} alt="KAOUKABI emblem"/><span>KAOUKABI<small>MADE TO BE REMEMBERED</small></span></button><div className="top-actions">{user?<button className="account" onClick={()=>signOut(auth)}><LogOut size={17}/><span>Sign out</span></button>:<button className="account" onClick={login}><UserRound size={18}/><span>Sign in</span></button>}<button className="cart-trigger" onClick={()=>Co(true)}><ShoppingBag size={18}/> YOUR CART <b>{count}</b></button></div></header>
+{page==='home'?<main className="home-screen"><div className="home-brand"><img src={LOGO} alt="KAOUKABI crowned monogram"/><div><p className="eyebrow">A MOROCCAN BRAND</p><h1>KAOUKABI</h1><span>MADE TO BE REMEMBERED</span></div></div><nav className="home-menu"><button onClick={()=>go('shop')}><span>01</span><b>Shop</b><ArrowRight/></button><button onClick={()=>go('social')}><span>02</span><b>Social Media</b><ArrowRight/></button><button onClick={()=>go('about')}><span>03</span><b>About KAOUKABI</b><ArrowRight/></button><button onClick={()=>go('dashboard')}><span>04</span><b>Owner Dashboard</b><Lock/></button></nav><blockquote className="home-quote"><p>{Q.home[0]}</p><cite>— {Q.home[1]}</cite></blockquote><div className="home-footer"><span>QUALITY · INTENTION · CHARACTER</span><span>© {new Date().getFullYear()} KAOUKABI</span></div></main>:<main className="section-screen"><div className="section-top"><button className="back-home" onClick={()=>go('home')}><ArrowLeft size={16}/> HOME</button><div className="section-quote"><p>{quote[0]}</p><cite>— {quote[1]}</cite></div><span className="section-index">{({shop:'01 / 04',social:'02 / 04',about:'03 / 04',dashboard:'04 / 04'})[page]}</span></div>
+{page==='shop'&&<section className="shop-view"><div className="shop-head"><div><p className="eyebrow">THE KAOUKABI COLLECTION</p><h2>Find your <em>favourite.</em></h2></div><label className="shop-search"><Search size={18}/><input value={search} onChange={e=>Se(e.target.value)} placeholder="Try “a long sleeve blue hoodie”…"/></label></div>{!selected?<><div className="shop-controls"><div className="category-tabs">{['All','Clothing','Bags','Accessories'].map(c=><button key={c} onClick={()=>Ca(c)} className={category===c?'active':''}>{c}</button>)}</div><span>{shown.length} RESULTS</span></div><div className="catalog-grid">{shown.map(p=><button className="catalog-card" key={p.id} onClick={()=>openProduct(p)}><div className="catalog-image"><img src={p.image||LOGO} onError={e=>e.currentTarget.src=LOGO} alt={p.name}/><span>VIEW PIECE <ArrowRight size={15}/></span></div><div className="catalog-info"><div><h3>{p.name}</h3><small>{p.category}</small></div><b>{money(p.price)} <small>({euro(p.price)})</small></b></div></button>)}</div>{!shown.length&&<div className="no-results"><Search size={28}/><h3>No matching pieces</h3><p>Try a shorter description, a colour, or another product word.</p></div>}</>:<div className="product-detail"><button className="back-shop" onClick={()=>Sel(null)}><ArrowLeft size={16}/> GO BACK TO SHOP</button><div className="detail-layout"><div className="detail-image"><img src={selected.image||LOGO} onError={e=>e.currentTarget.src=LOGO} alt={selected.name}/></div><div className="detail-copy"><p className="eyebrow">{selected.category}</p><h2>{selected.name}</h2><div className="detail-price">{money(selected.price)} <small>({euro(selected.price)})</small></div><p>{selected.description}</p><div className="swatch-block"><b>ITEM COLOR</b><div className="swatches">{(selected.colors||[]).map(c=><button key={c} title={c} aria-label={c} onClick={()=>Col(c)} className={'swatch '+(color===c?'chosen':'')} style={{'--swatch':({'black':'#171717','white':'#fff','cream':'#e9dfca','burgundy':'#792332','red':'#b52b31','blue':'#416b9a','navy':'#182b48','green':'#4e8658','pink':'#e6a6b5','beige':'#c8ae8d','tan':'#b77b48','gold':'#d5a63a','silver':'#b9bec4'}[c.toLowerCase()]||c)}}><span/></button>)}</div><small>{color||'No color options listed'}</small></div><div className="detail-quantity"><b>QUANTITY</b><div><button onClick={()=>Qty(Math.max(1,qty-1))}><Minus size={15}/></button><span>{qty}</span><button onClick={()=>Qty(qty+1)}><Plus size={15}/></button></div></div><button className="dark-button add-detail" onClick={()=>add(selected,color,qty)}>ADD TO CART <ShoppingBag size={17}/></button></div></div><Reviews product={selected} user={user}/></div>}</section>}
+{page==='social'&&<section className="simple-view social-view"><div><p className="eyebrow">FOLLOW THE KAOUKABI JOURNEY</p><h2>Stay <em>connected.</em></h2><p className="simple-intro">New pieces, little moments and everything happening behind the brand.</p><Social/><p className="muted">WhatsApp link coming soon.</p></div></section>}
+{page==='about'&&<section className="simple-view about-view"><div><p className="eyebrow">OUR STORY</p><h2>About <em>KAOUKABI.</em></h2><p className="simple-intro">Our story is being written. A message from the owner will appear here soon.</p><div className="owner-note">A BRAND BUILT WITH INTENTION <span>✳</span></div></div></section>}
+{page==='dashboard'&&<section className="dashboard-view">{!owner?<div className="locked-panel"><Lock size={35}/><h2>Owner access only.</h2><p>Only the owner can access this section.</p><button className="dark-button" onClick={login}>SIGN IN WITH OWNER ACCOUNT</button></div>:<><div className="dashboard-heading"><div><p className="eyebrow">PRIVATE AREA</p><h2>Owner <em>Dashboard.</em></h2><p>Signed in as {user.email}</p></div></div><form className="publish-form" onSubmit={publish}><h3>Publish a new product</h3><label>Product name<input required value={form.name} onChange={e=>F({...form,name:e.target.value})} placeholder="e.g. Long sleeve blue hoodie"/></label><label>Description<textarea rows="3" value={form.description} onChange={e=>F({...form,description:e.target.value})}/></label><div className="form-row"><label>Price (MAD)<input required type="number" min="1" value={form.price} onChange={e=>F({...form,price:e.target.value})}/></label><label>Category<select value={form.category} onChange={e=>F({...form,category:e.target.value})}><option>Clothing</option><option>Bags</option><option>Accessories</option></select></label></div><label>Available colors (comma-separated)<input value={form.colors} onChange={e=>F({...form,colors:e.target.value})} placeholder="Blue, Black, Cream"/></label><label>Product image URL (optional)<input value={form.image} onChange={e=>F({...form,image:e.target.value})}/></label><button className="dark-button" disabled={busy}>{busy?'PUBLISHING…':'PUBLISH PRODUCT'} <ArrowRight size={16}/></button></form><div className="dashboard-products"><h3>Published products ({products.length})</h3>{products.map(p=><div key={p.id}><span>{p.name}</span><b>{money(p.price)}</b></div>)}</div></>}</section>}
+</main>}
+{page!=='home'&&<footer className="section-footer"><button onClick={()=>go('home')}>KAOUKABI</button><span>MADE TO BE REMEMBERED</span><span>© {new Date().getFullYear()}</span></footer>}
+{notice&&<div className="toast">{notice}</div>}
+{cartOpen&&<div className="drawer-shade" onClick={()=>Co(false)}><aside className="cart-drawer" onClick={e=>e.stopPropagation()}><div className="drawer-heading"><h2>Your Cart <small>({count})</small></h2><button onClick={()=>Co(false)}><X/></button></div>{!cart.length?<div className="cart-empty"><ShoppingBag size={35}/><h3>Your cart is empty.</h3><button className="dark-button" onClick={()=>{Co(false);go('shop')}}>GO TO SHOP</button></div>:<><div className="cart-lines">{cart.map(p=><div className="cart-line" key={p.key}><img src={p.image||LOGO} onError={e=>e.currentTarget.src=LOGO} alt=""/><div className="cart-line-main"><b>{p.name}</b><small>{p.color||'No color'} · {money(p.price)}</small><div className="cart-stepper"><button onClick={()=>change(p.key,-1)}><Minus size={13}/></button><span>{p.qty}</span><button onClick={()=>change(p.key,1)}><Plus size={13}/></button><button className="remove-item" onClick={()=>Cart(old=>old.filter(x=>x.key!==p.key))}><Trash2 size={14}/> Remove</button></div></div><strong>{money(p.price*p.qty)}</strong></div>)}</div><div className="cart-total"><div><span>Total</span><b>{money(total)}</b></div><p>Complete your order with KAOUKABI on WhatsApp.</p><button className="dark-button" onClick={checkout}>BUY <ArrowRight size={17}/></button><small>WhatsApp number will be updated when you provide it.</small></div></>}</aside></div>}
+</div>
 }
