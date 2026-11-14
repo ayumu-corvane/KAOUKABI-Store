@@ -96,3 +96,8 @@
 /* Move the homepage quotation a little more noticeably higher, keeping the adjustment restrained. */
 .home-quote{transform:translateY(-35px)!important}
 @media(max-width:620px){.home-quote{transform:translateY(-22px)!important}}
+
+
+/* Match the copyright line to the QUALITY · INTENTION · CHARACTER footer text. */
+.home-footer span:last-child{font-size:9px!important;letter-spacing:2px!important;font-weight:700!important}
+@media(max-width:620px){.home-footer span:last-child{font-size:7px!important}}
