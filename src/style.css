@@ -140,3 +140,9 @@
 .about-copy .about-signoff{text-align:center;font-family:Georgia,serif;font-style:italic;line-height:1.8;margin-top:0}
 .about-copy .about-signoff strong{font-style:normal;letter-spacing:.08em}
 @media(max-width:620px){.about-view{padding-top:24px!important;padding-bottom:35px!important}.about-copy{font-size:14px;line-height:1.8}.about-copy p{margin-bottom:16px}.about-copy .about-tagline{font-size:18px;margin-bottom:22px}}
+
+
+/* Soft, unhurried toast notifications: drift down into view, then fade away gently. */
+.toast{animation:kaoukabi-toast-life 3.6s cubic-bezier(.22,.68,0,1) both;pointer-events:none;will-change:opacity,transform}
+@keyframes kaoukabi-toast-life{0%{opacity:0;transform:translate(-50%,-16px)}18%{opacity:1;transform:translate(-50%,0)}62%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,5px)}}
+@media(prefers-reduced-motion:reduce){.toast{animation:none;opacity:1;transform:translateX(-50%)}}
