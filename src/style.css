@@ -183,3 +183,40 @@
 .dashboard-products>div span{min-width:0;overflow-wrap:anywhere}
 @media(max-width:900px){.dashboard-layout{grid-template-columns:minmax(0,1.4fr) minmax(220px,.8fr);gap:14px}.color-image-manager{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.dashboard-view{padding:0}.dashboard-layout{grid-template-columns:1fr}.publish-form{grid-template-columns:1fr;padding:17px}.publish-form>h3,.publish-form>.color-image-manager,.publish-form>.dark-button,.publish-form>.form-row{grid-column:1}.publish-form>.form-row{grid-template-columns:1fr}.color-image-manager{grid-template-columns:1fr}.dashboard-products{margin-top:0}}
+
+
+/* Owner order inbox and customer notifications */
+.orders-section{margin:20px 0 28px;padding:22px;background:rgba(255,253,249,.88);border:1px solid #dfd4c7}
+.orders-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;padding-bottom:15px;border-bottom:1px solid #e6ddd2}
+.orders-heading .eyebrow{margin:0 0 5px}
+.orders-heading h3{display:flex;align-items:center;gap:10px;font:25px 'Playfair Display';margin:0;color:var(--black)}
+.orders-heading h3>svg{color:var(--burgundy)}
+.orders-heading>span{font-size:9px;letter-spacing:1.4px;color:#84796e}
+.order-count{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border-radius:50%;background:var(--burgundy);color:white;font:700 11px 'DM Sans'}
+.orders-empty{padding:22px 0;margin:0;font-size:12px;color:#81776d}
+.orders-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding-top:15px}
+.order-card{min-width:0;padding:15px;background:#fff;border:1px solid #e6ddd2;border-left:3px solid var(--gold)}
+.order-card.is-finished{border-left-color:var(--green);opacity:.82}
+.order-card-top,.order-customer,.order-card-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.order-customer{justify-content:flex-start;min-width:0}
+.order-bell{width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:50%;background:#f5eee4;color:var(--burgundy)}
+.order-customer>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.order-customer b{font:17px 'Playfair Display';overflow-wrap:anywhere}
+.order-customer small{font-size:9px;color:#84796e;overflow-wrap:anywhere}
+.order-status{flex:none;font-size:8px;font-weight:700;letter-spacing:1px;color:var(--burgundy)}
+.is-finished .order-status{color:var(--green)}
+.order-card-actions{justify-content:flex-start;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #eee7de}
+.order-card-actions button{min-height:34px;padding:8px 11px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:8px;font-weight:700;letter-spacing:1px}
+.order-check{border:1px solid #d8cec2;background:#fff;color:var(--black)}
+.order-finish{border:1px solid var(--green);background:var(--green);color:white}
+.order-details{margin-top:13px;padding-top:13px;border-top:1px solid #eee7de}
+.order-details h4{font:18px 'Playfair Display';margin:0 0 10px}
+.order-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ebe5}
+.order-item img{width:48px;height:55px;object-fit:contain;background:#f7f3ed}
+.order-item>div{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.order-item b{font-size:10px}
+.order-item small,.order-details>p{font-size:9px;color:#81776d;overflow-wrap:anywhere}
+.order-item strong{font-size:10px;white-space:nowrap}
+.order-total{display:flex;justify-content:space-between;padding:12px 0;font-size:11px;border-bottom:1px solid #eee7de}
+.order-details>p{margin:8px 0 0}
+@media(max-width:760px){.orders-list{grid-template-columns:1fr}.orders-section{padding:16px}}
