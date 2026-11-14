@@ -107,3 +107,11 @@
 .page-transition{animation:kaoukabi-page-enter .48s cubic-bezier(.22,.68,0,1) both;will-change:opacity,transform}
 @keyframes kaoukabi-page-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.page-transition{animation:none;will-change:auto}}
+
+
+/* Product photography keeps its original aspect ratio in both the catalog and detail view. */
+.catalog-card{align-self:start}
+.catalog-image{height:auto!important;min-height:0!important;display:block!important;background:transparent!important;overflow:hidden}
+.catalog-image img{display:block;width:100%;height:auto!important;max-height:none!important;object-fit:initial!important;transition:transform .3s}
+.detail-image{height:auto!important;min-height:0!important;display:block!important;background:transparent!important;overflow:hidden}
+.detail-image img{display:block;width:100%;height:auto!important;max-height:none!important;object-fit:initial!important}
