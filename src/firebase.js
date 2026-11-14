@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAh-ob2pci_vS5i06f3touh8-d0gfXO_gg",
+  apiKey: "AIzaSyAh-ob2Pci_vS5i06f3touh8-d0gfXO_gg",
   authDomain: "kaoukabi-c5ad9.firebaseapp.com",
   projectId: "kaoukabi-c5ad9",
   storageBucket: "kaoukabi-c5ad9.firebasestorage.app",
