@@ -101,3 +101,9 @@
 /* Match the copyright line to the QUALITY · INTENTION · CHARACTER footer text. */
 .home-footer span:last-child{font-size:9px!important;letter-spacing:2px!important;font-weight:700!important}
 @media(max-width:620px){.home-footer span:last-child{font-size:7px!important}}
+
+
+/* Gentle entrance motion when navigating between KAOUKABI sections. */
+.page-transition{animation:kaoukabi-page-enter .48s cubic-bezier(.22,.68,0,1) both;will-change:opacity,transform}
+@keyframes kaoukabi-page-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.page-transition{animation:none;will-change:auto}}
