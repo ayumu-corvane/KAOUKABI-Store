@@ -74,3 +74,10 @@
 .signed-in span{font-size:11px;color:#82786e}
 .signed-in .dark-button{margin-top:12px}
 @media(max-width:620px){.home-menu-logo{width:48px;height:48px;grid-row:auto;margin-top:2px}.home-quote{transform:translateY(-8px)}.home-footer span:first-child{font-size:7px}.account-view{padding:22px 2px}.account-panel{padding:25px 20px}.account-panel h2{font-size:32px}}
+
+
+/* Ensure the supplied Lol 2 artwork is the shared, very subtle backdrop for every interior section, including Shop, Social, About and Account. */
+.section-screen{background-color:var(--cream);background-image:linear-gradient(rgba(255,253,249,.955),rgba(255,253,249,.955)),url('/Lol-2.jfif');background-position:center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
+.google-button:disabled,.auth-form .dark-button:disabled{opacity:.6;cursor:wait}
+.auth-error{overflow-wrap:anywhere}
+@media(max-width:620px){.section-screen{background-attachment:scroll}}
