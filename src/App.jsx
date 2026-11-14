@@ -114,11 +114,8 @@ export default function App(){
   const selectedQty=p=>Math.max(1,Number(purchaseOptions[p.id]?.qty)||1);
   const whatsapp=()=>{
     const phone='212600000000'; // Replace with the store's WhatsApp number before launch.
-    const lines=cart.map(p=>p.name+(p.color?' · Color: '+p.color:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('
-');
-    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent('Hello KAOUKABI! I would like to order:
-'+lines+'
-Total: '+money(total)),'_blank','noopener,noreferrer');
+    const lines=cart.map(p=>p.name+(p.color?' · Color: '+p.color:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\\n');
+    window.open('https://wa.me/'+phone+'?text='+encodeURIComponent('Hello KAOUKABI! I would like to order:\\n'+lines+'\\nTotal: '+money(total)),'_blank','noopener,noreferrer');
   };
   const login=async()=>{try{await signInWithPopup(auth,googleProvider)}catch(e){setNotice(e.code==='auth/popup-closed-by-user'?'Sign-in cancelled':'Could not sign in. Check Firebase Authentication settings.')}};
   const categories=['All','Clothing','Bags','Accessories'];
