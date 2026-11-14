@@ -78,7 +78,7 @@ function ProductReviews({ product, user }) {
   </details>;
 }
 
-const money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' DH';
+const EUR_MAD_RATE = 10.95; // Approximate reference rate; refresh periodically.\nconst money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' MAD';\nconst euro = n => '€' + (Number(n || 0) / EUR_MAD_RATE).toFixed(2);
 
 export default function App(){
   const [products,setProducts]=useState(seed);
@@ -135,7 +135,7 @@ export default function App(){
       <section className="shop-section" id="shop">
         <div className="section-heading"><div><p className="eyebrow">A CURATED SELECTION</p><h2>Find your <em>favourite.</em></h2></div><p>Thoughtful pieces for every version of you.</p></div>
         <div className="shop-toolbar"><div className="filters">{categories.map(c=><button key={c} className={category===c?'filter active':'filter'} onClick={()=>setCategory(c)}>{c==='All'?'ALL':c.toUpperCase()}</button>)}</div><span className="result-count">{shown.length} PIECES</span></div>
-        <div className="product-grid">{shown.map((p,i)=><article className="product" key={p.id}><div className="product-image"><img src={p.image} alt={p.name} loading="lazy"/>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={'heart '+(favorites.includes(p.id)?'hearted':'')} onClick={()=>setFavorites(old=>old.includes(p.id)?old.filter(x=>x!==p.id):[...old,p.id])} aria-label="Save favourite"><Heart size={18} fill={favorites.includes(p.id)?'currentColor':'none'}/></button><button className="quick-add" onClick={()=>add(p)}>ADD TO BAG <Plus size={15}/></button></div><div className="product-info"><div><p className="product-category">{p.category}</p><h3>{p.name}</h3></div><strong>{money(p.price)}</strong></div><p className="product-description">{p.description}</p><ProductReviews product={p} user={user}/></article>)}</div>
+        <div className="product-grid">{shown.map((p,i)=><article className="product" key={p.id}><div className="product-image"><img src={p.image} alt={p.name} loading="lazy"/>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={'heart '+(favorites.includes(p.id)?'hearted':'')} onClick={()=>setFavorites(old=>old.includes(p.id)?old.filter(x=>x!==p.id):[...old,p.id])} aria-label="Save favourite"><Heart size={18} fill={favorites.includes(p.id)?'currentColor':'none'}/></button><button className="quick-add" onClick={()=>add(p)}>ADD TO BAG <Plus size={15}/></button></div><div className="product-info"><div className="product-price"><strong>{money(p.price)}</strong><span title="Approximate euro conversion">{`(${euro(p.price)})`}</span></div><h3>{p.name}</h3><p className="product-category">{p.category}</p></div><p className="product-description">{p.description}</p><button className="product-add-button" onClick={()=>add(p)}>ADD TO CART <ShoppingBag size={15}/></button><ProductReviews product={p} user={user}/></article>)}</div>
         {!shown.length&&<div className="empty">No pieces found. Try another search.</div>}
         {loading&&<p className="loading-note">Checking the latest collection…</p>}
       </section>
