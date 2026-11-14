@@ -28,3 +28,20 @@
 .review-submit:disabled{opacity:.55;cursor:wait}
 .review-message{margin:9px 0 0;color:var(--green)}
 @media(max-width:620px){.reviews summary{font-size:7px}.review-summary{font-size:8px}.reviews-overview>strong{font-size:25px}}
+
+
+/* Clear product purchase hierarchy */
+.product-info{display:block;margin-top:15px}
+.product-price{display:flex;align-items:baseline;gap:7px;margin-bottom:7px}
+.product-price strong{font-size:14px;letter-spacing:.2px;color:var(--wine)}
+.product-price span{font-size:10px;color:#918780;font-weight:400}
+.product-info h3{font:500 19px 'Playfair Display';margin:0;color:var(--ink)}
+.product-info .product-category{margin:6px 0 0}
+.product-add-button{width:100%;margin-top:15px;min-height:43px;padding:12px 15px;border:1px solid var(--wine);background:var(--wine);color:white;display:flex;align-items:center;justify-content:center;gap:12px;font-size:9px;letter-spacing:1.5px;font-weight:700;transition:background .2s,color .2s}
+.product-add-button:hover{background:transparent;color:var(--wine)}
+@media(max-width:620px){
+ .product-price strong{font-size:13px}
+ .product-price span{font-size:9px}
+ .product-info h3{font-size:16px}
+ .product-add-button{min-height:40px;font-size:8px;margin-top:12px}
+}
