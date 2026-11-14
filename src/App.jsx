@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, doc, getDocs, getDoc, query, where, orderBy, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from './firebase';
 import { Search, ShoppingBag, Menu, X, ArrowRight, UserRound, LogOut, Plus, Minus, Heart, Instagram, ChevronDown } from 'lucide-react';
 
@@ -12,6 +12,71 @@ const seed = [
   {id:'bag-02',name:'The Mini Shoulder',category:'Bags',price:390,tag:'',description:'A compact silhouette for your essentials.',image:'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=85'},
   {id:'acc-02',name:'Everyday Gold Tones',category:'Accessories',price:150,tag:'',description:'Finishing touches for your own kind of style.',image:'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=900&q=85'}
 ];
+
+
+function ProductReviews({ product, user }) {
+  const [reviews,setReviews]=useState([]);
+  const [rating,setRating]=useState(0);
+  const [comment,setComment]=useState('');
+  const [loadingReviews,setLoadingReviews]=useState(true);
+  const [saving,setSaving]=useState(false);
+  const [reviewed,setReviewed]=useState(false);
+  const [message,setMessage]=useState('');
+
+  useEffect(()=>{
+    let alive=true;
+    const load=async()=>{
+      try {
+        const snap=await getDocs(query(collection(db,'products',product.id,'reviews'),orderBy('createdAt','desc')));
+        if(alive) setReviews(snap.docs.map(d=>({id:d.id,...d.data()})));
+        if(user){
+          const mine=await getDoc(doc(db,'products',product.id,'reviews',user.uid));
+          if(alive) setReviewed(mine.exists());
+        }
+      } catch(e) {
+        if(alive) setMessage('Reviews are temporarily unavailable.');
+      } finally { if(alive) setLoadingReviews(false); }
+    };
+    load();
+    return ()=>{alive=false};
+  },[product.id,user]);
+
+  const average=reviews.length?(reviews.reduce((sum,r)=>sum+Number(r.rating||0),0)/reviews.length):0;
+  const submit=async(e)=>{
+    e.preventDefault();
+    if(!user){setMessage('Please sign in to leave a review.');return;}
+    if(!rating||!comment.trim()){setMessage('Choose a star rating and write a comment first.');return;}
+    setSaving(true);setMessage('');
+    try {
+      await setDoc(doc(db,'products',product.id,'reviews',user.uid),{
+        userId:user.uid,
+        userName:user.displayName||'KAOUKABI customer',
+        rating,
+        comment:comment.trim().slice(0,1000),
+        createdAt:serverTimestamp()
+      });
+      setReviewed(true);
+      setReviews(old=>[{id:user.uid,userName:user.displayName||'KAOUKABI customer',rating,comment:comment.trim(),createdAt:new Date()},...old]);
+      setComment('');
+      setMessage('Thank you — your review has been published!');
+    } catch(e) {
+      setMessage('We couldn’t save your review. Please try again in a moment.');
+    } finally {setSaving(false);}
+  };
+
+  return <details className="reviews">
+    <summary><span>REVIEWS & RATINGS</span><span className="review-summary">{reviews.length?<>★ {average.toFixed(1)} · {reviews.length} {reviews.length===1?'review':'reviews'}</>:'Be the first to review'}</span></summary>
+    <div className="reviews-content">
+      <div className="reviews-overview"><strong>{reviews.length?average.toFixed(1):'—'}</strong><span className="review-stars">{'★'.repeat(Math.round(average))}{'☆'.repeat(5-Math.round(average))}</span><small>{reviews.length} {reviews.length===1?'customer review':'customer reviews'}</small></div>
+      {loadingReviews?<p className="review-muted">Loading reviews…</p>:reviews.length?reviews.map(r=><article className="review-entry" key={r.id}><div className="review-entry-head"><strong>{r.userName||'KAOUKABI customer'}</strong><span className="review-stars">{'★'.repeat(Number(r.rating)||0)}{'☆'.repeat(5-(Number(r.rating)||0))}</span></div><p>{r.comment}</p></article>):<p className="review-muted">No reviews yet. Share your experience with this piece.</p>}
+      {reviewed?<p className="review-muted">You’ve already reviewed this piece. Thank you!</p>:<form className="review-form" onSubmit={submit}>
+        <h4>{user?'Write a review':'Sign in to leave a review'}</h4>
+        {user?<><div className="star-picker" role="group" aria-label="Choose a rating">{[1,2,3,4,5].map(n=><button type="button" key={n} className={n<=rating?'selected':''} onClick={()=>setRating(n)} aria-label={n+' stars'}>★</button>)}</div><textarea value={comment} onChange={e=>setComment(e.target.value)} maxLength={1000} placeholder="What did you think of this piece?" rows="3"/><button className="review-submit" disabled={saving}>{saving?'PUBLISHING…':'PUBLISH REVIEW'}</button></>:<p className="review-muted">Use the account icon at the top of the page to sign in first.</p>}
+        {message&&<p className="review-message">{message}</p>}
+      </form>}
+    </div>
+  </details>;
+}
 
 const money = n => new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(n) + ' DH';
 
@@ -70,7 +135,7 @@ export default function App(){
       <section className="shop-section" id="shop">
         <div className="section-heading"><div><p className="eyebrow">A CURATED SELECTION</p><h2>Find your <em>favourite.</em></h2></div><p>Thoughtful pieces for every version of you.</p></div>
         <div className="shop-toolbar"><div className="filters">{categories.map(c=><button key={c} className={category===c?'filter active':'filter'} onClick={()=>setCategory(c)}>{c==='All'?'ALL':c.toUpperCase()}</button>)}</div><span className="result-count">{shown.length} PIECES</span></div>
-        <div className="product-grid">{shown.map((p,i)=><article className="product" key={p.id}><div className="product-image"><img src={p.image} alt={p.name} loading="lazy"/>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={'heart '+(favorites.includes(p.id)?'hearted':'')} onClick={()=>setFavorites(old=>old.includes(p.id)?old.filter(x=>x!==p.id):[...old,p.id])} aria-label="Save favourite"><Heart size={18} fill={favorites.includes(p.id)?'currentColor':'none'}/></button><button className="quick-add" onClick={()=>add(p)}>ADD TO BAG <Plus size={15}/></button></div><div className="product-info"><div><p className="product-category">{p.category}</p><h3>{p.name}</h3></div><strong>{money(p.price)}</strong></div><p className="product-description">{p.description}</p></article>)}</div>
+        <div className="product-grid">{shown.map((p,i)=><article className="product" key={p.id}><div className="product-image"><img src={p.image} alt={p.name} loading="lazy"/>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={'heart '+(favorites.includes(p.id)?'hearted':'')} onClick={()=>setFavorites(old=>old.includes(p.id)?old.filter(x=>x!==p.id):[...old,p.id])} aria-label="Save favourite"><Heart size={18} fill={favorites.includes(p.id)?'currentColor':'none'}/></button><button className="quick-add" onClick={()=>add(p)}>ADD TO BAG <Plus size={15}/></button></div><div className="product-info"><div><p className="product-category">{p.category}</p><h3>{p.name}</h3></div><strong>{money(p.price)}</strong></div><p className="product-description">{p.description}</p><ProductReviews product={p} user={user}/></article>)}</div>
         {!shown.length&&<div className="empty">No pieces found. Try another search.</div>}
         {loading&&<p className="loading-note">Checking the latest collection…</p>}
       </section>
