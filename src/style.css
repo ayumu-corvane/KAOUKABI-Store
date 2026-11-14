@@ -115,3 +115,7 @@
 .catalog-image img{display:block;width:100%;height:auto!important;max-height:none!important;object-fit:initial!important;transition:transform .3s}
 .detail-image{height:auto!important;min-height:0!important;display:block!important;background:transparent!important;overflow:hidden}
 .detail-image img{display:block;width:100%;height:auto!important;max-height:none!important;object-fit:initial!important}
+
+
+/* Slightly reduce Shop catalog photos while preserving each image's natural proportions. */
+.catalog-image img{width:88%!important;margin:0 auto!important}
