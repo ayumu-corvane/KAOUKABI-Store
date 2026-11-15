@@ -292,6 +292,9 @@ body{top:0!important}
 .stock-editor{display:flex;align-items:center;gap:12px;margin:12px 0;font-size:9px;color:#766e65}
 .stock-editor select{height:34px;min-width:145px;padding:0 9px;border:1px solid #d8d0c5;background:white;font-size:10px}
 .modify-product{border:1px solid #792332;background:transparent;color:#792332;padding:10px 13px;font-size:8px;font-weight:700;letter-spacing:1.2px}
+.product-admin-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:8px 0}
+.delete-product{display:inline-flex;align-items:center;gap:6px;border:1px solid #a33a3a;background:transparent;color:#a33a3a;padding:10px 13px;font-size:8px;font-weight:700;letter-spacing:1.2px}
+.delete-product:disabled{opacity:.45;cursor:not-allowed}
 .edit-product-form{margin-top:15px;padding:18px;background:#f5f0e8;border:1px solid #e3dbd0}
 .edit-product-form h4{font:20px 'Playfair Display';margin:0 0 12px}
 .edit-product-form label{display:flex;flex-direction:column;gap:7px;margin:12px 0;font-size:10px;font-weight:700}
