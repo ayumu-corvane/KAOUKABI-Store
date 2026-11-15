@@ -536,3 +536,13 @@ body{top:0!important}
 
 /* Mobile homepage: separate the round seal from the quotation. */
 @media(max-width:620px){.home-menu-logo{margin-top:12px;margin-bottom:14px;align-self:flex-start}.home-quote{transform:none}}
+
+/* Order manager actions: clear spacing and provide clear sample/delete controls. */
+.order-reset-actions{display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap}
+.order-reset-actions .order-total-count{font-size:9px;letter-spacing:1.2px;color:#84796e;white-space:nowrap;margin-right:5px}
+.sample-order-button,.delete-order-button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:10px 14px;border:1px solid #71866c;background:#edf3eb;color:#365b39;font-size:9px;font-weight:700;letter-spacing:.08em;cursor:pointer;white-space:nowrap}
+.sample-order-button:hover{background:#365b39;color:#fff}
+.sample-order-button:disabled,.delete-order-button:disabled{opacity:.5;cursor:wait}
+.delete-order-button{margin:18px 0 8px;border-color:#8a5360;background:transparent;color:#70283d}
+.delete-order-button:hover{background:#70283d;color:#fff}
+@media(max-width:680px){.orders-heading{align-items:flex-start;flex-direction:column}.order-reset-actions{width:100%;justify-content:flex-start;gap:10px}.order-reset-actions .order-total-count{width:100%;margin:0 0 3px}.order-reset-actions button{flex:1 1 auto}}
