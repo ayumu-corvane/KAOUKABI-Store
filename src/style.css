@@ -463,3 +463,27 @@ body{top:0!important}
 .contact-activity{background:#fffaf6}
 .contact-activity .activity-card p{overflow-wrap:anywhere}
 @media(max-width:620px){.contact-form{padding:17px}.contact-form .dark-button{width:100%}.contact-inner>.simple-intro{font-size:12px}}
+
+
+/* Contact conversation and reliable notification action layout */
+.activity-card{grid-template-columns:42px minmax(0,1fr)!important;align-items:start}
+.activity-card>.notification-actions{grid-column:2;display:flex;align-items:center;justify-content:flex-start;gap:9px;flex-wrap:wrap;min-width:0}
+.notification-actions>button,.notification-actions>a{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:9px 12px;white-space:normal;text-align:center;line-height:1.35}
+.activity-card>.notification-actions>button{font-size:9px}
+.contact-activity{cursor:pointer;transition:background .18s}
+.contact-activity:hover{background:#fff8f1}
+.contact-activity:focus-visible{outline:2px solid var(--burgundy);outline-offset:2px}
+.contact-message-popup{width:min(650px,96vw)}
+.contact-original-message{padding:18px;margin:16px 0;background:#f7f2eb;border:1px solid #e5dbcf;color:#433a33;font-size:13px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.contact-reply-form{display:grid;gap:13px}
+.contact-reply-form label{display:grid;gap:8px;color:#51483f;font-size:10px;font-weight:700;letter-spacing:.08em}
+.contact-reply-form textarea{width:100%;padding:13px;border:1px solid #d8cec2;background:#fffdf9;color:#171313;font:12px/1.6 'DM Sans';resize:vertical}
+.contact-reply-form .dark-button{justify-self:start;min-width:150px}
+.contact-thread{margin:24px 0;padding:20px;background:rgba(255,253,249,.95);border:1px solid #e4d9cc}
+.contact-thread h3{font:22px 'Playfair Display';color:var(--burgundy);margin:0 0 15px}
+.contact-thread-message{max-width:90%;padding:13px 15px;margin:10px 0;background:#f5f0e8;border:1px solid #e6ddd2}
+.contact-thread-message.from-brand{margin-left:auto;background:#edf3eb;border-color:#d5e3d2}
+.contact-thread-message b{font:14px 'Playfair Display';color:var(--burgundy)}
+.contact-thread-message p{font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;margin:7px 0}
+.contact-thread-message small{font-size:9px;color:#81776d}
+@media(max-width:620px){.activity-card>.notification-actions{gap:7px}.notification-actions>button,.notification-actions>a{flex:1 1 140px}.contact-thread-message{max-width:100%}.contact-reply-form .dark-button{width:100%}}
