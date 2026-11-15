@@ -370,3 +370,9 @@ body{top:0!important}
 .social-connect-links a{padding:9px 12px;border:1px solid #d9cbbd;color:var(--burgundy);font-size:10px;text-decoration:none}
 @media(max-width:900px){.order-manager-split{grid-template-columns:1fr}.order-side-pane{display:grid;grid-template-columns:1fr 1fr;gap:8px}.order-side-pane>.eyebrow,.order-side-pane>h4,.side-stat{grid-column:1/-1}.product-workspace .dashboard-layout{grid-template-columns:1fr}.product-workspace .dashboard-products{max-height:35vh}}
 @media(max-width:650px){.dashboard-hub{grid-template-columns:1fr;min-height:auto;padding:15px 0}.dashboard-hub>button{min-height:135px;padding:20px}.dashboard-hub>button>b{font-size:19px}.product-workspace{height:auto;max-height:none;overflow:visible}.product-workspace .dashboard-layout{grid-template-columns:1fr}.product-workspace .publish-form{grid-template-columns:1fr}.product-workspace .publish-form>h3,.product-workspace .publish-form>.color-image-manager,.product-workspace .publish-form>.dark-button,.product-workspace .publish-form>.form-row{grid-column:1}.product-workspace .color-image-manager{grid-template-columns:1fr}.activity-card{grid-template-columns:36px minmax(0,1fr)}.activity-card>button{grid-column:2;justify-self:start}.statistics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.order-manager-wide{padding:10px}.order-manager-wide .calendar-day{min-height:68px}.order-popup{padding:20px}.dashboard-workspace-top{align-items:flex-start;flex-direction:column}}
+
+/* Keep product editing in a spacious two-column workspace without nested scroll panes. */
+.product-workspace{height:auto;min-height:calc(100vh - 220px);max-height:none;overflow:visible}
+.product-workspace .dashboard-products{max-height:none;overflow:visible}
+.product-workspace .publish-form{max-height:none;overflow:visible}
+.growth-status{display:inline-block;margin-left:6px;color:var(--green);font:700 12px 'DM Sans';letter-spacing:.5px}
