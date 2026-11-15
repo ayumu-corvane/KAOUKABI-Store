@@ -444,3 +444,22 @@ body{top:0!important}
 .customer-order-items.empty{display:none!important;}
 
 .move-history-trash-button{display:block;margin:26px auto 0;padding:13px 22px;border:1px solid #8a5360;background:transparent;color:#70283d;font:inherit;font-size:11px;letter-spacing:.12em;cursor:pointer;transition:background .2s,color .2s}.move-history-trash-button:hover{background:#70283d;color:#fff}
+
+
+/* Customer contact form */
+.contact-inner{width:min(620px,100%)!important;text-align:left!important}
+.contact-inner>.eyebrow,.contact-inner>h2,.contact-inner>.simple-intro{text-align:center}
+.contact-form{display:grid;gap:15px;margin:26px auto 0;padding:26px;background:rgba(255,253,249,.94);border:1px solid #e4d9cc;box-shadow:0 12px 35px #21160e10;text-align:left}
+.contact-form label{display:flex;flex-direction:column;gap:7px;color:#51483f;font-size:10px;font-weight:700;letter-spacing:.5px}
+.contact-form label span{display:inline;color:#918579;font-size:9px;font-weight:400}
+.contact-form input,.contact-form textarea{width:100%;border:1px solid #d8cec2;background:#fff;padding:12px 13px;color:var(--black);font:12px/1.55 'DM Sans';outline:none}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--burgundy);box-shadow:0 0 0 2px #79233212}
+.contact-form textarea{resize:vertical;min-height:130px}
+.contact-form .dark-button{justify-self:start;min-width:190px}
+.contact-form .dark-button:disabled{opacity:.6;cursor:wait}
+.contact-form>small{font-size:9px;color:#897e73}
+.contact-success{margin:16px auto;padding:12px 16px;background:#edf3eb;border:1px solid #d5e3d2;color:#426b45;font-size:11px;text-align:center}
+.contact-reply-link{justify-self:start;align-self:center;padding:10px 12px;border:1px solid var(--burgundy);color:var(--burgundy);text-decoration:none;font-size:8px;font-weight:700;letter-spacing:.8px}
+.contact-activity{background:#fffaf6}
+.contact-activity .activity-card p{overflow-wrap:anywhere}
+@media(max-width:620px){.contact-form{padding:17px}.contact-form .dark-button{width:100%}.contact-inner>.simple-intro{font-size:12px}}
