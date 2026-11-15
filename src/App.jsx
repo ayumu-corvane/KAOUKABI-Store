@@ -19,7 +19,12 @@ function Social(){return <div className="social-cards"><a href={SOCIAL.instagram
 export default function App(){
 const [page,P]=useState('home'),[products,Ps]=useState(seed),[user,U]=useState(null),[search,Se]=useState(''),[category,Ca]=useState('All'),[selected,Sel]=useState(null),[cart,Cart]=useState([]),[cartOpen,Co]=useState(false),[notice,N]=useState(''),[color,Col]=useState(''),[size,Size]=useState('M'),[qty,Qty]=useState(1),[busy,Bu]=useState(false),[form,F]=useState({name:'',description:'',price:'',category:'Clothing',colors:'',image:LOGO}),[authMode,AM]=useState('signin'),[email,Email]=useState(''),[password,Password]=useState(''),[authBusy,AB]=useState(false),[authError,AE]=useState(''),[imageFiles,IF]=useState({}),[galleryIndex,GI]=useState(0),[orders,Orders]=useState([]),[expandedOrder,ExpandOrder]=useState(null),[finishingOrderId,FinishingOrderId]=useState(null),[orderBusy,OrderBusy]=useState(false),[paymentStage,PaymentStage]=useState('');
 const signedInEmail=(user?.email||user?.providerData?.find(p=>p.email)?.email||'').trim().toLowerCase();
-const owner=Boolean(user?.uid)&&user.uid===OWNER_UID;
+// UID is the primary identity. A verified matching Firebase email is a safe recovery path
+// if the owner ever signs in with a newly-created Firebase UID. Display names are not
+// used for authorization because anyone can choose the same public name.
+const ownerByUid=Boolean(user?.uid)&&user.uid===OWNER_UID;
+const ownerByVerifiedEmail=Boolean(user?.emailVerified)&&signedInEmail===OWNER_EMAIL;
+const owner=ownerByUid||ownerByVerifiedEmail;
 useEffect(()=>onAuthStateChanged(auth,U),[]);
 useEffect(()=>{let live=true;getDocs(query(collection(db,'products'),where('published','==',true))).then(s=>{if(live&&!s.empty)Ps(s.docs.map(d=>({id:d.id,...d.data()})))}).catch(()=>{});return()=>{live=false}},[]);
 useEffect(()=>{if(!owner)return;const stop=onSnapshot(query(collection(db,'orders'),orderBy('createdAt','desc')),snap=>Orders(snap.docs.map(d=>({id:d.id,...d.data()}))),err=>toast('Could not load orders. Check Firestore permissions.'));return stop},[owner]);
