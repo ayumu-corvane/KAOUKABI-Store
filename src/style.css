@@ -508,3 +508,23 @@ body{top:0!important}
  .contact-thread-scroll{height:42vh;min-height:220px;max-height:420px}
  .contact-form{position:relative;top:auto}
 }
+
+
+/* Customer and owner message management */
+.message-delete-button{display:inline-flex;align-items:center;margin-top:9px;padding:7px 10px;border:1px solid #8a5360;background:transparent;color:#70283d;font-size:8px;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.message-delete-button:hover{background:#70283d;color:#fff}
+.message-delete-button:disabled{opacity:.5;cursor:wait}
+.messages-inbox-list{display:grid;gap:10px;margin-top:18px}
+.message-inbox-person{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;padding:16px 18px;text-align:left;background:rgba(255,253,249,.95);border:1px solid #e4d9cc;color:var(--black);cursor:pointer;transition:border-color .18s,transform .18s}
+.message-inbox-person:hover{border-color:var(--burgundy);transform:translateY(-1px)}
+.message-inbox-icon{display:grid;place-items:center;width:40px;height:40px;background:#f1e8e5;color:var(--burgundy)}
+.message-inbox-copy{display:grid;gap:4px;min-width:0}
+.message-inbox-copy>b{font:17px 'Playfair Display',Georgia,serif;color:var(--burgundy)}
+.message-inbox-copy>small{font-size:9px;color:#8a7d72;overflow-wrap:anywhere}
+.message-inbox-copy>span{font-size:11px;color:#5f554c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.message-inbox-date{display:flex;align-items:center;gap:9px;color:#8a7d72;font-size:9px;white-space:nowrap}
+.owner-message-thread{max-height:48vh;overflow-y:auto;margin:16px 0;padding:4px 8px 4px 0}
+.owner-message-thread .contact-thread-message{max-width:88%}
+.owner-message-thread .message-delete-button{display:flex}
+.contact-message-popup{max-height:90vh;overflow-y:auto}
+@media(max-width:620px){.message-inbox-person{grid-template-columns:36px minmax(0,1fr);gap:10px;padding:13px}.message-inbox-icon{width:34px;height:34px}.message-inbox-date{grid-column:2;justify-content:space-between}.owner-message-thread .contact-thread-message{max-width:100%}}
