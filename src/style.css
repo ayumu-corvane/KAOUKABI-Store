@@ -438,3 +438,7 @@ body{top:0!important}
 .delete-item-actions{display:flex;gap:10px;justify-content:center;margin-top:25px}
 .delete-item-actions button{min-width:110px;justify-content:center}
 @media(max-width:600px){.received-item-action{align-items:flex-start}.delete-notification-button{white-space:normal}}
+
+
+/* Fully collapse the item-list panel when every item has been deleted or expired. */
+.customer-order-items.empty{display:none!important;}
