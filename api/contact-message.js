@@ -1,9 +1,26 @@
+import { randomBytes } from 'node:crypto';
 import { db, messaging, OWNER_UID } from '../server/firebaseAdmin.js';
 
 const recentSubmissions = new Map();
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    try {
+      const token = String(req.query?.conversationToken || '').trim();
+      if (!/^[a-f0-9]{64}$/.test(token)) return res.status(400).json({ error: 'Invalid conversation.' });
+      const snap = await db.collection('activityEvents').where('conversationToken', '==', token).get();
+      const messages = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => {
+        const ta = a.createdAt?.toMillis?.() || a.createdAt?.getTime?.() || 0;
+        const tb = b.createdAt?.toMillis?.() || b.createdAt?.getTime?.() || 0;
+        return ta - tb;
+      });
+      return res.status(200).json({ messages });
+    } catch (error) {
+      console.error('Contact conversation fetch failed:', error.message);
+      return res.status(500).json({ error: 'Could not load your conversation.' });
+    }
+  }
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
   try {
     const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
@@ -21,8 +38,9 @@ export default async function handler(req, res) {
 
     recent.push(now);
     recentSubmissions.set(ip, recent);
+    const conversationToken = randomBytes(32).toString('hex');
     const ref = await db.collection('activityEvents').add({
-      type: 'contact_message', userName: name, email, subject, message,
+      type: 'contact_message', userName: name, email, subject, message, conversationToken,
       createdAt: new Date()
     });
 
@@ -53,7 +71,7 @@ export default async function handler(req, res) {
       console.error('Contact message push notification failed:', pushError.message);
     }
 
-    return res.status(200).json({ ok: true, messageId: ref.id });
+    return res.status(200).json({ ok: true, messageId: ref.id, conversationToken });
   } catch (error) {
     console.error('Contact message failed:', error.message);
     return res.status(500).json({ error: 'Your message could not be sent. Please try again.' });
