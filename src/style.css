@@ -487,3 +487,24 @@ body{top:0!important}
 .contact-thread-message p{font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;margin:7px 0}
 .contact-thread-message small{font-size:9px;color:#81776d}
 @media(max-width:620px){.activity-card>.notification-actions{gap:7px}.notification-actions>button,.notification-actions>a{flex:1 1 140px}.contact-thread-message{max-width:100%}.contact-reply-form .dark-button{width:100%}}
+
+
+/* Contact page: independent conversation scroller + stationary compose panel */
+.contact-inner{width:min(1120px,96%)!important}
+.contact-columns{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);gap:24px;align-items:start;margin:28px auto 0}
+.contact-thread-panel{min-width:0;padding:22px;background:rgba(255,253,249,.94);border:1px solid #e4d9cc;box-shadow:0 12px 35px #21160e10;text-align:left}
+.contact-thread-panel>h3,.contact-form>h3{font:22px 'Playfair Display',Georgia,serif;color:var(--burgundy);margin:0 0 15px}
+.contact-thread-scroll{height:min(62vh,590px);min-height:300px;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:4px 10px 4px 2px}
+.contact-thread-scroll::-webkit-scrollbar{width:7px}
+.contact-thread-scroll::-webkit-scrollbar-thumb{background:#b99ca0;border-radius:8px}
+.contact-thread-scroll::-webkit-scrollbar-track{background:#f0e9e1}
+.contact-thread{margin:0;padding:0;border:0;background:transparent}
+.contact-empty-thread{padding:28px 12px;color:#8b8076;font-size:12px;line-height:1.7;text-align:center}
+.contact-form{position:sticky;top:22px;margin:0;min-width:0}
+.contact-thread-message{max-width:88%;overflow-wrap:anywhere}
+@media(max-width:760px){
+ .contact-inner{width:min(620px,94%)!important}
+ .contact-columns{grid-template-columns:1fr;gap:16px}
+ .contact-thread-scroll{height:42vh;min-height:220px;max-height:420px}
+ .contact-form{position:relative;top:auto}
+}
