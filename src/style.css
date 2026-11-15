@@ -427,3 +427,14 @@ body{top:0!important}
 .push-prompt-close{position:absolute;right:13px;top:10px;border:0;background:none;font-size:27px;color:#76665f;cursor:pointer}
 .push-prompt-later{display:block;margin:15px auto 0;border:0;background:none;color:#75645f;text-decoration:underline;font-size:12px;cursor:pointer}
 @media(max-width:520px){.push-prompt{padding:36px 24px 28px}.push-prompt h2{font-size:31px}}
+
+.received-item-action{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.received-item-action small{flex-basis:100%}
+.received-item-action .delete-now-button{border:1px solid #8a5360;background:transparent;color:#70283d;padding:8px 13px;font:inherit;font-size:11px;letter-spacing:.04em;cursor:pointer}
+.received-item-action .delete-now-button:hover{background:#70283d;color:#fff}
+.delete-notification-button{border:1px solid rgba(101,31,50,.32);background:transparent;color:#70283d;padding:9px 12px;font-size:10px;letter-spacing:.08em;cursor:pointer;white-space:nowrap}
+.delete-notification-button:hover{background:#70283d;color:#fff}
+.delete-item-confirm h3{font-family:Georgia,serif;font-size:25px;line-height:1.3;color:#651f32;margin:10px 0}
+.delete-item-actions{display:flex;gap:10px;justify-content:center;margin-top:25px}
+.delete-item-actions button{min-width:110px;justify-content:center}
+@media(max-width:600px){.received-item-action{align-items:flex-start}.delete-notification-button{white-space:normal}}
