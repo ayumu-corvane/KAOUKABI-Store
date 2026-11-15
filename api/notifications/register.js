@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { authenticate, db } from '../_firebaseAdmin.js';
+import { authenticate, db } from '../../server/firebaseAdmin.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
