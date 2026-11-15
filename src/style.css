@@ -532,3 +532,7 @@ body{top:0!important}
 /* Give message timestamps a little breathing room before delete/hide actions. */
 .contact-thread-message small{display:block;margin-bottom:9px}
 .message-delete-button{margin-top:4px}
+
+
+/* Mobile homepage: separate the round seal from the quotation. */
+@media(max-width:620px){.home-menu-logo{margin-top:12px;margin-bottom:14px;align-self:flex-start}.home-quote{transform:none}}
