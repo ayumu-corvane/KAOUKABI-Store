@@ -255,3 +255,21 @@
 .confirm-actions button:hover{filter:brightness(.96);transform:translateY(-1px)}
 @keyframes confirm-overlay-in{from{opacity:0}to{opacity:1}}
 @media(max-width:480px){.confirm-actions{flex-direction:column}.confirm-actions button{width:100%}}
+
+
+/* Homepage language picker and Google-powered whole-page translation */
+.language-switcher{position:absolute;z-index:8;left:50%;bottom:42px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.language-trigger{display:flex;align-items:center;gap:12px;padding:9px 15px;border:1px solid rgba(121,35,50,.55);background:rgba(255,253,249,.94);color:var(--burgundy);font-size:9px;font-weight:700;letter-spacing:1.5px;box-shadow:0 3px 12px #00000012}
+.language-trigger span{font-size:14px}
+.language-menu{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:210px;max-height: min(55vh,390px);overflow-y:auto;padding:10px;background:rgba(255,253,249,.98);border:1px solid #d9cbbd;box-shadow:0 12px 35px #0002;backdrop-filter:blur(12px)}
+.language-menu p{margin:4px 8px 8px;color:#8a7b6d;font-size:8px;font-weight:700;letter-spacing:1.3px}
+.language-menu button{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 9px;border:0;border-bottom:1px solid #eee6dc;background:transparent;color:#211b18;text-align:left;font-size:12px}
+.language-menu button:last-child{border-bottom:0}
+.language-menu button:hover{background:#f3ebe2;color:var(--burgundy)}
+.google-translate-credit{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.google-translate-credit .goog-te-gadget{font-size:8px!important;color:#796f65!important}
+.google-translate-credit .goog-logo-link{display:inline!important;font-size:8px!important}
+.google-translate-credit select{display:none!important}
+.goog-te-banner-frame.skiptranslate{display:none!important}
+body{top:0!important}
+@media(max-width:620px){.language-switcher{bottom:43px}.language-trigger{padding:8px 12px;font-size:8px}.language-menu{width:190px;max-height:45vh}.home-footer{bottom:8px}}
