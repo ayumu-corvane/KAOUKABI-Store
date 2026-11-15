@@ -528,3 +528,7 @@ body{top:0!important}
 .owner-message-thread .message-delete-button{display:flex}
 .contact-message-popup{max-height:90vh;overflow-y:auto}
 @media(max-width:620px){.message-inbox-person{grid-template-columns:36px minmax(0,1fr);gap:10px;padding:13px}.message-inbox-icon{width:34px;height:34px}.message-inbox-date{grid-column:2;justify-content:space-between}.owner-message-thread .contact-thread-message{max-width:100%}}
+
+/* Give message timestamps a little breathing room before delete/hide actions. */
+.contact-thread-message small{display:block;margin-bottom:9px}
+.message-delete-button{margin-top:4px}
