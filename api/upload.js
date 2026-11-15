@@ -26,7 +26,10 @@ export default async function handler(req, res) {
       issuer: `https://securetoken.google.com/${PROJECT_ID}`,
       audience: PROJECT_ID,
     });
-    if (payload.sub !== OWNER_UID) {
+    const tokenEmail = String(payload.email || '').trim().toLowerCase();
+    const ownerByUid = payload.sub === OWNER_UID;
+    const ownerByVerifiedEmail = tokenEmail === 'ayumucorvane@gmail.com' && payload.email_verified === true;
+    if (!ownerByUid && !ownerByVerifiedEmail) {
       return res.status(403).json({ error: 'Only the KAOUKABI owner can upload product pictures.' });
     }
 
