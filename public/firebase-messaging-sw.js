@@ -10,16 +10,6 @@ firebase.initializeApp({
   appId: '1:844569229301:web:162cc5f9b06325446892bc'
 });
 const messaging = firebase.messaging();
-messaging.onBackgroundMessage(payload => {
-  const title = payload.notification?.title || 'KAOUKABI';
-  const options = {
-    body: payload.notification?.body || 'You have a new update.',
-    icon: '/kaoukabi-logo.webp',
-    badge: '/kaoukabi-logo.webp',
-    data: { url: payload.fcmOptions?.link || payload.data?.url || '/' }
-  };
-  self.registration.showNotification(title, options);
-});
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   const target = event.notification.data?.url || '/';
