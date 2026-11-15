@@ -40,6 +40,7 @@ function change(key,d){Cart(old=>old.map(p=>p.key===key?{...p,qty:p.qty+d}:p).fi
 function openProduct(p){Sel(p);Col((p.colors||[])[0]||'');Size('M');GI(0);Qty(1);window.scrollTo({top:0,behavior:'instant'})}
 async function checkout(){
 if(!cart.length)return;
+if(cart.some(item=>(products.find(p=>p.id===item.id)?.stockStatus||item.stockStatus||'full')!=='full')){toast('One or more items in your cart are currently unavailable. Please review your cart.');return}
 if(!user){toast('Please sign in before placing an order.');Co(false);go('account');return}
 const lines=cart.map(p=>p.name+' · '+(p.color||'No color')+(p.category==='Clothing'?' · Size '+p.size:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\n');
 const message='Bonjour KAOUKABI, je souhaite commander:\n'+lines+'\nTotal: '+money(total);
