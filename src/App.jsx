@@ -34,8 +34,8 @@ function openProduct(p){Sel(p);Col((p.colors||[])[0]||'');Size('M');GI(0);Qty(1)
 async function checkout(){
 if(!cart.length)return;
 if(!user){toast('Please sign in before placing an order.');Co(false);go('account');return}
-const lines=cart.map(p=>p.name+' · '+(p.color||'No color')+(p.category==='Clothing'?' · Size '+p.size:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\\n');
-const message='Bonjour KAOUKABI, je souhaite commander:\\n'+lines+'\\nTotal: '+money(total);
+const lines=cart.map(p=>p.name+' · '+(p.color||'No color')+(p.category==='Clothing'?' · Size '+p.size:'')+' × '+p.qty+' — '+money(p.price*p.qty)).join('\n');
+const message='Bonjour KAOUKABI, je souhaite commander:\n'+lines+'\nTotal: '+money(total);
 OrderBusy(true);PaymentStage('Preparing your order…');
 try{
 await addDoc(collection(db,'orders'),{userId:user.uid,userName:user.displayName||user.email||'KAOUKABI customer',userEmail:user.email||user.providerData?.find(p=>p.email)?.email||'',items:cart.map(p=>({productId:p.id,name:p.name,color:p.color||'No color',...(p.category==='Clothing'?{size:p.size||'M'}:{}),category:p.category||'',price:Number(p.price)||0,quantity:Number(p.qty)||1,image:p.image||LOGO})),total:Number(total)||0,status:'pending',createdAt:serverTimestamp()});
