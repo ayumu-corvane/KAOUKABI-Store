@@ -415,3 +415,15 @@ body{top:0!important}
 .received-item-action button{min-width:94px;padding:8px 12px;border:1px solid var(--burgundy);background:var(--burgundy);color:#fff;font-size:8px;font-weight:700;letter-spacing:1px;cursor:pointer}
 .received-item-action button:disabled{opacity:.42;cursor:not-allowed}
 @media(max-width:620px){.received-item-action{justify-content:space-between}.received-item-action small{max-width:65%}}
+
+/* KAOUKABI web push permission invitation */
+.push-prompt-backdrop{position:fixed;inset:0;z-index:10050;background:rgba(24,17,18,.58);display:grid;place-items:center;padding:22px;backdrop-filter:blur(5px)}
+.push-prompt{position:relative;width:min(100%,470px);padding:42px 38px 34px;background:#faf8f5;color:#2b2422;border:1px solid rgba(101,31,50,.2);box-shadow:0 24px 90px rgba(0,0,0,.24);text-align:center}
+.push-prompt-brand{display:inline-block;color:#651f32;font-family:Georgia,serif;font-size:19px;letter-spacing:.19em;margin-bottom:28px}
+.push-prompt .eyebrow{font-size:10px;letter-spacing:.17em;color:#8a6b60;margin:0 0 12px}
+.push-prompt h2{font-family:Georgia,serif;font-weight:500;font-size:36px;margin:0 0 14px;color:#651f32}
+.push-prompt p:not(.eyebrow){font-size:14px;line-height:1.75;color:#655a55;margin:0 0 25px}
+.push-prompt .dark-button{width:100%;justify-content:center;min-height:48px}
+.push-prompt-close{position:absolute;right:13px;top:10px;border:0;background:none;font-size:27px;color:#76665f;cursor:pointer}
+.push-prompt-later{display:block;margin:15px auto 0;border:0;background:none;color:#75645f;text-decoration:underline;font-size:12px;cursor:pointer}
+@media(max-width:520px){.push-prompt{padding:36px 24px 28px}.push-prompt h2{font-size:31px}}
