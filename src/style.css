@@ -406,3 +406,12 @@ body{top:0!important}
 .order-payment-control .dark-button{font-size:8px;padding:11px 13px}
 @media(max-width:850px){.home-screen{grid-template-rows:auto auto auto!important}.home-order-tracker{margin-top:16px}.customer-order-list{grid-template-columns:1fr}}
 @media(max-width:620px){.home-screen{height:auto!important;min-height:calc(100dvh - 66px)!important;max-height:none!important;overflow:visible!important;display:flex!important;flex-direction:column;justify-content:flex-start!important;gap:16px!important;padding:22px 7vw 55px!important}.home-brand{min-height:0!important}.home-order-tracker{width:100%;margin:8px 0 12px;padding:18px 13px}.tracker-heading h2{font-size:27px}.customer-order-top>div>b{font-size:14px}.customer-order-status{font-size:7px}.order-payment-control{align-items:flex-start;flex-direction:column}}
+
+
+/* Customer received confirmation controls */
+.customer-order-item-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 12px;padding:9px 0!important}
+.received-item-action{grid-column:1/-1;display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.received-item-action small{font-size:8px;color:#81776d;letter-spacing:.2px}
+.received-item-action button{min-width:94px;padding:8px 12px;border:1px solid var(--burgundy);background:var(--burgundy);color:#fff;font-size:8px;font-weight:700;letter-spacing:1px;cursor:pointer}
+.received-item-action button:disabled{opacity:.42;cursor:not-allowed}
+@media(max-width:620px){.received-item-action{justify-content:space-between}.received-item-action small{max-width:65%}}
