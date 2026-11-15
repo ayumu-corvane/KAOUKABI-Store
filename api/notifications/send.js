@@ -1,4 +1,4 @@
-import { authenticate, db, messaging, OWNER_UID } from '../_firebaseAdmin.js';
+import { authenticate, db, messaging, OWNER_UID } from '../../server/firebaseAdmin.js';
 
 const labels = { untouched: 'Still not touched', working: 'Working on it', shipped: 'Shipped', finished: 'Finished' };
 export default async function handler(req, res) {
