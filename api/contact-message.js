@@ -21,8 +21,8 @@ export default async function handler(req, res) {
 
     recent.push(now);
     recentSubmissions.set(ip, recent);
-    const ref = await db.collection('contactMessages').add({
-      name, email, subject, message, status: 'new',
+    const ref = await db.collection('activityEvents').add({
+      type: 'contact_message', userName: name, email, subject, message,
       createdAt: new Date()
     });
 
