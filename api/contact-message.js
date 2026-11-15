@@ -10,8 +10,11 @@ export default async function handler(req, res) {
       const token = String(req.query?.conversationToken || '').trim();
       if (!/^[a-f0-9]{64}$/.test(token)) return res.status(400).json({ error: 'Invalid conversation.' });
       const snap = await db.collection('activityEvents').where('conversationToken', '==', token).get();
-      const hiddenSnap = await db.collection('customerHiddenMessages').where('conversationToken', '==', token).get();
-      const hiddenIds = new Set(hiddenSnap.docs.map(d => d.get('messageId')));
+      const hiddenIds = new Set();
+      if (String(req.query?.customerView || '') === '1') {
+        const hiddenSnap = await db.collection('customerHiddenMessages').where('conversationToken', '==', token).get();
+        hiddenSnap.docs.forEach(d => hiddenIds.add(d.get('messageId')));
+      }
       const messages = snap.docs.filter(d => !hiddenIds.has(d.id)).map(d => ({ id: d.id, ...d.data() })).sort((a,b) => {
         const ta = a.createdAt?.toMillis?.() || a.createdAt?.getTime?.() || 0;
         const tb = b.createdAt?.toMillis?.() || b.createdAt?.getTime?.() || 0;
