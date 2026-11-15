@@ -273,3 +273,33 @@
 .goog-te-banner-frame.skiptranslate{display:none!important}
 body{top:0!important}
 @media(max-width:620px){.language-switcher{bottom:43px}.language-trigger{padding:8px 12px;font-size:8px}.language-menu{width:190px;max-height:45vh}.home-footer{bottom:8px}}
+
+
+/* Product stock and owner editing */
+.catalog-image{position:relative}
+.stock-badge{position:absolute;top:10px;left:10px;z-index:2;padding:7px 10px;background:#fffdf9eF;color:#080808;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.stock-soldout{background:#792332;color:#fff}
+.stock-restocking{background:#e9a13b;color:#171717}
+.stock-full{background:#4f9256;color:#fff}
+.detail-stock{display:inline-block;padding:7px 11px;margin:12px 0!important;font-size:10px!important;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.stock-text-soldout{background:#792332;color:white!important}
+.stock-text-restocking{background:#e9a13b;color:#171717!important}
+.stock-text-full{background:#4f9256;color:white!important}
+.add-detail:disabled{opacity:.55;cursor:not-allowed}
+.dashboard-products{margin:25px 0}
+.dashboard-product{display:block!important;padding:15px 0!important;border-bottom:1px solid #e3dbd0}
+.dashboard-product-line{display:flex;justify-content:space-between;gap:12px;font-size:11px}
+.stock-editor{display:flex;align-items:center;gap:12px;margin:12px 0;font-size:9px;color:#766e65}
+.stock-editor select{height:34px;min-width:145px;padding:0 9px;border:1px solid #d8d0c5;background:white;font-size:10px}
+.modify-product{border:1px solid #792332;background:transparent;color:#792332;padding:10px 13px;font-size:8px;font-weight:700;letter-spacing:1.2px}
+.edit-product-form{margin-top:15px;padding:18px;background:#f5f0e8;border:1px solid #e3dbd0}
+.edit-product-form h4{font:20px 'Playfair Display';margin:0 0 12px}
+.edit-product-form label{display:flex;flex-direction:column;gap:7px;margin:12px 0;font-size:10px;font-weight:700}
+.edit-product-form input,.edit-product-form select{height:38px;border:1px solid #d8d0c5;padding:0 9px;background:white;font-size:11px;min-width:0}
+.edit-product-form textarea{width:100%;padding:10px;border:1px solid #d8d0c5;background:white;font-size:11px;resize:vertical}
+.edit-product-form .color-image-manager{margin:15px 0}
+.edit-product-form .color-image-manager h5{font-size:10px;margin:0 0 6px}
+.edit-product-form .color-image-manager p{font-size:10px;color:#81776e}
+.edit-actions{display:flex;align-items:center;gap:12px;margin-top:15px}
+.cancel-edit{border:0;background:none;color:#792332;font-size:9px;font-weight:700;letter-spacing:1px;padding:12px}
+@media(max-width:620px){.stock-editor{align-items:flex-start;flex-direction:column;gap:6px}.edit-product-form{padding:13px}.dashboard-product-line{font-size:10px}}
