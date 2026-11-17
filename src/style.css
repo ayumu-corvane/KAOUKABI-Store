@@ -47,7 +47,7 @@
 .section-screen{background-color:var(--cream);background-image:linear-gradient(rgba(255,253,249,.955),rgba(255,253,249,.955)),url('/Lol-2.jfif');background-position:center;background-size:cover;background-attachment:fixed}
 @media(max-width:620px){.section-screen{background-attachment:scroll}}
 /* Small circular brand seal below homepage navigation */
-.home-menu-logo{grid-column:2;grid-row:2;justify-self:center;align-self:start;width:clamp(48px,5.5vw,72px);height:clamp(48px,5.5vw,72px);object-fit:cover;border-radius:50%;border:2px solid var(--black);background:#fff;margin-top:9px;box-shadow:0 2px 9px #0002}
+.home-menu-logo{grid-column:2;grid-row:2;justify-self:center;align-self:start;width:clamp(48px,5.5vw,72px);height:clamp(48px,5.5vw,72px);object-fit:cover;border-radius:50%;border:0;background:#fff;margin-top:9px;box-shadow:0 2px 9px #0002}
 .home-quote{transform:translateY(-13px)}
 .home-footer{font-size:8px;letter-spacing:1.8px}
 .home-footer span:first-child{font-size:9px;letter-spacing:2px;font-weight:700}
